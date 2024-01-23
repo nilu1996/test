@@ -1,28 +1,10 @@
-Subject: Summary of Alteryx Server Configuration Discussion
+Subject: Update on Sandbox Infrastructure and Alteryx Production
 
-Hi Vivek,
+Hi Chandan,
 
-I hope this email finds you well. Following my meeting with Raghu, I gathered important information about our current Alteryx server setup:
+I trust this message finds you well. Today, we focused on setting up the Sandbox Infrastructure, and I'm pleased to report that Alteryx is now operational. I've generated a few tickets for the upcoming steps in the process. Once these tasks are complete, we can proceed with configuring the sandbox server.
 
-1. **Okta Configuration Status:**
-   We are currently not utilizing any Okta configuration on the existing Alteryx server. Instead, we are employing username-password authentication for logins.
+Additionally, I want to inform you that the Alteryx production environment is now up and running smoothly.
 
-2. **User Groups on Alteryx:**
-   For efficient management, we aim to establish two primary groups on Alteryx:
-   - *Curator:* Responsible for server administration.
-   - *Artisan:* Empowered to publish, run, and share workflows.
-   - *Member:* Users in this group can run workflows.
-
-3. **Current User Distribution:**
-   - *Curator Group:* Currently has two users.
-   - *Member Group:* All other users are part of this group.
-
-4. **Future Access Requests:**
-   If there is a need to elevate a Member's access to Artisan in the future, we will handle such requests on a case-by-case basis.
-
-Raghu, please review and let me know if there are any aspects I may have overlooked or if additional assistance is required.
-
-Thank you,
+Best regards,
 [Your Name]
-
-
