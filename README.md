@@ -1,17 +1,29 @@
-Subject: Update on Target Group Registration and Firewall Access Ticket
+Subject: Technical Update and Questions on Server Onboarding
 
-Dear Team,
+Hi [Recipient's Name],
 
-I would like to provide an update on our recent activities. We have successfully completed the registration process for the target group. Additionally, I have raised a ticket requesting firewall access for uattableau.amergbt.com to be extended to the public network.
+I hope this message finds you well. Here's a brief technical update on the ongoing server onboarding process:
 
-As of now, uattableau.amexgbt.com has not been mapped to Cloudflare. Our team is actively working on this task to ensure proper integration.
+1. Server Onboarding on CyberArk:
+   The onboarding process on CyberArk is currently underway.
 
-I have engaged in a discussion with the firewall team, and they have communicated that the request is currently in progress. We will continue to monitor and update you on the status as developments occur.
+2. Traffic Configuration for Alteryx.exe:
+   The next step involves configuring traffic to allow downloads for alteryx.exe.
 
-Thank you for your attention to these matters.
+3. License Update:
+   During today's connection, Paul switched the production licenses to temporary licenses.
+
+4. Expected Server Handover:
+   We anticipate that the server will be ready for handover by tomorrow morning.
+
+5. Alteryx Production Pending Configurations:
+   - SAML Configuration
+   - SMTP Configuration
+
+**Questions:**
+1. Regarding SMTP configuration, we require an email ID for notifications in both the sandbox and production environments. Could you confirm if there is a specific email ID for this purpose, or should we create a new one?
+
+Your prompt response is appreciated.
 
 Best regards,
-
 [Your Name]
-[Your Position]
-[Your Contact Information]
