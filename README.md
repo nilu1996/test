@@ -1,10 +1,17 @@
-Subject: Update on Sandbox Infrastructure and Alteryx Production
+Subject: Update on Target Group Registration and Firewall Access Ticket
 
-Hi Chandan,
+Dear Team,
 
-I trust this message finds you well. Today, we focused on setting up the Sandbox Infrastructure, and I'm pleased to report that Alteryx is now operational. I've generated a few tickets for the upcoming steps in the process. Once these tasks are complete, we can proceed with configuring the sandbox server.
+I would like to provide an update on our recent activities. We have successfully completed the registration process for the target group. Additionally, I have raised a ticket requesting firewall access for uattableau.amergbt.com to be extended to the public network.
 
-Additionally, I want to inform you that the Alteryx production environment is now up and running smoothly.
+As of now, uattableau.amexgbt.com has not been mapped to Cloudflare. Our team is actively working on this task to ensure proper integration.
+
+I have engaged in a discussion with the firewall team, and they have communicated that the request is currently in progress. We will continue to monitor and update you on the status as developments occur.
+
+Thank you for your attention to these matters.
 
 Best regards,
+
 [Your Name]
+[Your Position]
+[Your Contact Information]
