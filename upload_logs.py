@@ -26,10 +26,10 @@ def upload_to_s3(local_path, bucket_name, s3_base_path):
                 # Add timestamp to the S3 file path
                 s3_file_path = os.path.join(s3_path, relative_path)
 
-                print(f"Uploading {local_file_path} to {bucket_name}/{s3_file_path}")
+                print("Uploading {} to {}/{}".format(local_file_path, bucket_name, s3_file_path))
                 s3.upload_file(local_file_path, bucket_name, s3_file_path)
 
-        print(f"Upload from {local_path} to {s3_path} successful.")
+        print("Upload from {} to {} successful.".format(local_path, s3_path))
         return True
     except NoCredentialsError:
         print("Credentials not available.")
@@ -47,12 +47,12 @@ s3_upload_base_path = "logs"
 
 # Upload logs from the first local path
 if upload_to_s3(local_logs_path_1, s3_bucket_name, os.path.join(s3_upload_base_path, 'var_opt')):
-    print(f"Logs from {local_logs_path_1} moved to S3 successfully.")
+    print("Logs from {} moved to S3 successfully.".format(local_logs_path_1))
 else:
-    print(f"Failed to move logs from {local_logs_path_1} to S3.")
+    print("Failed to move logs from {} to S3.".format(local_logs_path_1))
 
 # Upload logs from the second local path
 if upload_to_s3(local_logs_path_2, s3_bucket_name, os.path.join(s3_upload_base_path, 'var_backups')):
-    print(f"Logs from {local_logs_path_2} moved to S3 successfully.")
+    print("Logs from {} moved to S3 successfully.".format(local_logs_path_2))
 else:
-    print(f"Failed to move logs from {local_logs_path_2} to S3.")
+    print("Failed to move logs from {} to S3.".format(local_logs_path_2))
