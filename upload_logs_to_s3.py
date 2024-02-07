@@ -2,12 +2,21 @@ import os
 import boto3
 from botocore.exceptions import NoCredentialsError
 from datetime import datetime
+import gzip
+
+def compress_file(file_path):
+    """
+    Compresses a file using gzip.
+    """
+    with open(file_path, 'rb') as f_in:
+        with gzip.open(file_path + '.gz', 'wb') as f_out:
+            f_out.writelines(f_in)
 
 def upload_to_s3(local_path, bucket_name, s3_base_path):
     """
-    Upload a directory to an S3 bucket with a timestamped folder.
+    Uploads a directory to an S3 bucket with a timestamped folder using instance profile credentials.
     """
-    s3 = boto3.client('s3', aws_access_key_id='ACCESS_KEY', aws_secret_access_key='SECREAT_KEY')
+    s3 = boto3.client('s3')
 
     try:
         # Create timestamped folder
@@ -20,39 +29,42 @@ def upload_to_s3(local_path, bucket_name, s3_base_path):
                 local_file_path = os.path.join(root, file)
                 relative_path = os.path.relpath(local_file_path, local_path)
 
+                # Compress the file
+                compress_file(local_file_path)
+
                 # Create the folder in S3 if it doesn't exist
-                s3.put_object(Bucket=bucket_name, Key=os.path.join(s3_path, relative_path) + '/')
+                s3.put_object(Bucket=bucket_name, Key=os.path.join(s3_path, relative_path) + '.gz')
 
                 # Add timestamp to the S3 file path
-                s3_file_path = os.path.join(s3_path, relative_path)
+                s3_file_path = os.path.join(s3_path, relative_path + '.gz')
 
-                print(f"Uploading {local_file_path} to {bucket_name}/{s3_file_path}")
-                s3.upload_file(local_file_path, bucket_name, s3_file_path)
+                print("Uploading {} to {}/{}".format(local_file_path, bucket_name, s3_file_path))
+                s3.upload_file(local_file_path + '.gz', bucket_name, s3_file_path)
 
-        print(f"Upload from {local_path} to {s3_path} successful.")
+        print("Upload from {} to {} successful.".format(local_path, s3_path))
         return True
     except NoCredentialsError:
         print("Credentials not available.")
         return False
 
 # Specify your local logs folder paths
-local_logs_path_1 = "/var/opt"
-local_logs_path_2 = "/var/backups"
+local_logs_path_1 = "/var/opt/tableau/tableau_server/logs"
+local_logs_path_2 = "/var/opt/tableau/tableau_server/data/tabsvc/logs/httpd"
 
 # Specify your S3 bucket name
-s3_bucket_name = "mypythonebucket"
+s3_bucket_name = "gbt-tableaubucket"
 
 # Specify the base S3 path where logs should be uploaded
 s3_upload_base_path = "logs"
 
 # Upload logs from the first local path
 if upload_to_s3(local_logs_path_1, s3_bucket_name, os.path.join(s3_upload_base_path, 'var_opt')):
-    print(f"Logs from {local_logs_path_1} moved to S3 successfully.")
+    print("Logs from {} moved to S3 successfully.".format(local_logs_path_1))
 else:
-    print(f"Failed to move logs from {local_logs_path_1} to S3.")
+    print("Failed to move logs from {} to S3.".format(local_logs_path_1))
 
 # Upload logs from the second local path
 if upload_to_s3(local_logs_path_2, s3_bucket_name, os.path.join(s3_upload_base_path, 'var_backups')):
-    print(f"Logs from {local_logs_path_2} moved to S3 successfully.")
+    print("Logs from {} moved to S3 successfully.".format(local_logs_path_2))
 else:
-    print(f"Failed to move logs from {local_logs_path_2} to S3.")
+    print("Failed to move logs from {} to S3.".format(local_logs_path_2))
