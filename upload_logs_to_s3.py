@@ -2,15 +2,19 @@ import os
 import boto3
 from botocore.exceptions import NoCredentialsError
 from datetime import datetime
-import gzip
+import zipfile
 
-def compress_file(file_path):
+def create_zip_file(directory):
     """
-    Compresses a file using gzip.
+    Creates a zip file containing all files in the given directory.
     """
-    with open(file_path, 'rb') as f_in:
-        with gzip.open(file_path + '.gz', 'wb') as f_out:
-            f_out.writelines(f_in)
+    zip_file_name = directory + '.zip'
+    with zipfile.ZipFile(zip_file_name, 'w') as zipf:
+        for root, dirs, files in os.walk(directory):
+            for file in files:
+                file_path = os.path.join(root, file)
+                zipf.write(file_path, os.path.relpath(file_path, directory))
+    return zip_file_name
 
 def upload_to_s3(local_path, bucket_name, s3_base_path):
     """
@@ -23,23 +27,17 @@ def upload_to_s3(local_path, bucket_name, s3_base_path):
         timestamped_folder = datetime.now().strftime("%Y%m%d_%H%M%S")
         s3_path = os.path.join(s3_base_path, timestamped_folder)
 
-        # Upload files to S3
-        for root, dirs, files in os.walk(local_path):
-            for file in files:
-                local_file_path = os.path.join(root, file)
-                relative_path = os.path.relpath(local_file_path, local_path)
+        # Create a zip file containing all files in the directory
+        zip_file = create_zip_file(local_path)
 
-                # Compress the file
-                compress_file(local_file_path)
+        # Upload the zip file to S3
+        s3_file_path = os.path.join(s3_path, os.path.basename(zip_file))
+        s3.upload_file(zip_file, bucket_name, s3_file_path)
 
-                # Create the folder in S3 if it doesn't exist
-                s3.put_object(Bucket=bucket_name, Key=os.path.join(s3_path, relative_path) + '.gz')
+        print("Uploaded {} to {}/{}".format(zip_file, bucket_name, s3_file_path))
 
-                # Add timestamp to the S3 file path
-                s3_file_path = os.path.join(s3_path, relative_path + '.gz')
-
-                print("Uploading {} to {}/{}".format(local_file_path, bucket_name, s3_file_path))
-                s3.upload_file(local_file_path + '.gz', bucket_name, s3_file_path)
+        # Remove the temporary zip file
+        os.remove(zip_file)
 
         print("Upload from {} to {} successful.".format(local_path, s3_path))
         return True
