@@ -1,15 +1,17 @@
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError
-from datetime import datetime
+from datetime import datetime, timedelta
 import shutil
 
-def create_zip_folder(local_path):
+def create_zip_folder(local_path, files):
     """
     Creates a zip file for the specified directory.
     """
     zip_file_name = local_path + ".zip"
-    shutil.make_archive(local_path, 'zip', local_path)
+    with zipfile.ZipFile(zip_file_name, 'w') as zipf:
+        for file in files:
+            zipf.write(os.path.join(local_path, file), file)
     return zip_file_name
 
 def upload_to_s3(zip_file_path, bucket_name, s3_base_path, local_path):
@@ -35,6 +37,19 @@ def upload_to_s3(zip_file_path, bucket_name, s3_base_path, local_path):
         print("Credentials not available.")
         return False
 
+def collect_logs_older_than_seven_days(logs_dir):
+    """
+    Collects log files older than seven days from the specified directory.
+    """
+    logs = []
+    seven_days_ago = datetime.now() - timedelta(days=7)
+    for file_name in os.listdir(logs_dir):
+        file_path = os.path.join(logs_dir, file_name)
+        modified_time = datetime.fromtimestamp(os.path.getmtime(file_path))
+        if modified_time < seven_days_ago:
+            logs.append(file_name)
+    return logs
+
 # Specify your local logs folder paths
 local_logs_paths = [
     "/var/opt/tableau/tableau_server/logs",
@@ -49,11 +64,20 @@ s3_upload_base_path = "logs"
 
 # Upload logs from each local path
 for local_logs_path in local_logs_paths:
-    # Create a zip file for logs from the current local path
-    zip_file_path = create_zip_folder(local_logs_path)
+    # Collect log files older than seven days
+    old_logs = collect_logs_older_than_seven_days(local_logs_path)
 
-    # Upload the zip file to S3
-    if upload_to_s3(zip_file_path, s3_bucket_name, s3_upload_base_path, local_logs_path):
-        print("Logs from {} moved to S3 successfully.".format(local_logs_path))
+    # Create a zip file for old logs
+    if old_logs:
+        zip_file_path = create_zip_folder(local_logs_path, old_logs)
+
+        # Upload the zip file to S3
+        if upload_to_s3(zip_file_path, s3_bucket_name, s3_upload_base_path, local_logs_path):
+            # Remove old logs
+            for log_file in old_logs:
+                os.remove(os.path.join(local_logs_path, log_file))
+            print("Old logs from {} moved to S3 successfully.".format(local_logs_path))
+        else:
+            print("Failed to move old logs from {} to S3.".format(local_logs_path))
     else:
-        print("Failed to move logs from {} to S3.".format(local_logs_path))
+        print("No old logs found in {}.".format(local_logs_path))
