@@ -1,2 +1,3 @@
- 0 8 * * * /path/to/log_backup_to_s3.py
+ 0 8 * * * /bin/python2.7 /home/tsmadmin/scripts/upload_s3_logs.py
+
 
