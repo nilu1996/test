@@ -73,3 +73,6 @@ sudo pip3 install package_name
 - Adjust the commands as per your Linux distribution and specific requirements.
 
 This guide should help you set up the required environment on your Linux server. If you encounter any issues or have further questions, feel free to ask!
+
+
+Create Lambda / Health check process to track the health of server(s) and trigger a notification to infrasupport DL in case of any issue with Server.
