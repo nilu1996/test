@@ -1,7 +1,7 @@
 import os
 import boto3
 from botocore.exceptions import NoCredentialsError
-from datetime import datetime, timedelta
+from datetime import datetime
 import shutil
 
 def create_zip_folder(local_path):
@@ -35,31 +35,11 @@ def upload_to_s3(zip_file_path, bucket_name, s3_base_path, local_path):
         print("Credentials not available.")
         return False
 
-def move_old_logs(local_path):
-    """
-    Moves log files older than 7 days to a separate directory.
-    """
-    today = datetime.today()
-    cutoff_date = today - timedelta(days=7)
-    old_logs_dir = os.path.join(local_path, 'old_logs')
-    os.makedirs(old_logs_dir, exist_ok=True)
-
-    for root, dirs, files in os.walk(local_path):
-        for file in files:
-            file_path = os.path.join(root, file)
-            last_modified_time = datetime.fromtimestamp(os.path.getmtime(file_path))
-            if last_modified_time < cutoff_date:
-                shutil.move(file_path, old_logs_dir)
-
 # Specify your local logs folder paths
 local_logs_paths = [
     "/var/opt/tableau/tableau_server/logs",
     "/var/opt/tableau/tableau_server/data/tabsvc/logs/httpd"
 ]
-
-# Move old logs before uploading
-for local_logs_path in local_logs_paths:
-    move_old_logs(local_logs_path)
 
 # Specify your S3 bucket name
 s3_bucket_name = "gbt-tableaubucket"
