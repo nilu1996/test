@@ -80,10 +80,4 @@ Create Lambda / Health check process to track the health of server(s) and trigge
 
 
 
-Sure, here's a concise version:
-
-1. **Setup Tomcat Server**: Install and configure Apache Tomcat to run Java-based web applications.
-
-2. **Configure Python Scripts**: Install Python and dependencies, write scripts for automation or data processing, and set environment variables.
-
-3. **Restore PostgreSQL Backup**: Connect to PostgreSQL, restore a backup using commands or scripts, and verify the restoration.
+/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.402.b06-2.el8.x86_64/jre
