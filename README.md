@@ -8,3 +8,5 @@ CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres';
 
 /home/svc_calinuser177/bison/test/BISON
 
+psql: FATAL:  Peer authentication failed for user "postgres"
+
