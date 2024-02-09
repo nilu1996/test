@@ -1,2 +1,5 @@
 CREATE ROLE postgres WITH SUPERUSER LOGIN PASSWORD 'postgres';
 
+ALTER ROLE postgres WITH PASSWORD 'postgres';
+
+
