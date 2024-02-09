@@ -6,3 +6,5 @@
 
 CREATE ROLE postgres WITH LOGIN PASSWORD 'postgres';
 
+/home/svc_calinuser177/bison/test/BISON
+
