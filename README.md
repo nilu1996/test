@@ -1,19 +1,37 @@
-Create Lambda / Health check process to track the health of server(s) and trigger a notification to infrasupport DL in case of any issue with Server.
+import boto3
 
-It should include following two checks:
-
-Server's health and status
-DNS/urls are up and running.
-
-
-
-Traceback (most recent call last):
-  File "upload_s3_logs.py", line 78, in <module>
-    zip_file_path = create_zip_folder(local_logs_path, old_logs)
-  File "upload_s3_logs.py", line 15, in create_zip_folder
-    zipf.write(os.path.join(local_path, file), file)
-  File "/usr/lib64/python2.7/zipfile.py", line 824, in __exit__
-    self.close()
-  File "/usr/lib64/python2.7/zipfile.py", line 1371, in close
-    " would require ZIP64 extensions")
-zipfile.LargeZipFile: Central directory offset would require ZIP64 extensions
+def lambda_handler(event, context):
+    # Create EC2 client
+    ec2_client = boto3.client('ec2')
+    sns_client = boto3.client('sns')
+    
+    # Get all instances in the region
+    instances = ec2_client.describe_instances()
+    
+    # Initialize a list to store instances with status other than 'running'
+    instances_not_running = []
+    
+    # Check each instance's status
+    for reservation in instances['Reservations']:
+        for instance in reservation['Instances']:
+            instance_id = instance['InstanceId']
+            state = instance['State']['Name']
+            # Check if instance state is not 'running'
+            if state != 'running':
+                instances_not_running.append(instance_id)
+    
+    # If there are instances not running, trigger an email
+    if instances_not_running:
+        # Create SNS client
+        sns_client = boto3.client('sns')
+        
+        # Set up the email subject and message
+        subject = "EC2 Instance(s) Not Running"
+        message = f"The following EC2 instance(s) are not running: {', '.join(instances_not_running)}"
+        
+        # Publish the message to the specified SNS topic
+        sns_client.publish(
+            TopicArn='arn:aws:sns:us-east-1:211125567787:test-lambda',
+            Message=message,
+            Subject=subject
+        )
