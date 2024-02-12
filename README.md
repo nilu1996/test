@@ -1,6 +1,6 @@
-CREATE ROLE postgres WITH SUPERUSER LOGIN PASSWORD 'postgres';
+Create Lambda / Health check process to track the health of server(s) and trigger a notification to infrasupport DL in case of any issue with Server.
 
-ALTER ROLE postgres WITH PASSWORD 'postgres';
+It should include following two checks:
 
-
-pg_restore -U postgres -d your_database_name /home/sva/bison/bison/amex-1109.backup
+Server's health and status
+DNS/urls are up and running.
