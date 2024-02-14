@@ -22,7 +22,7 @@ def check_website_availability(url, sns_topic_arn):
 
 if __name__ == "__main__":
     website_url = "https://devtableau.gbt.gbtad.com/"
-    sns_topic_arn = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"  # Replace with your SNS topic ARN
+    sns_topic_arn = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"  
     while True:
         check_website_availability(website_url, sns_topic_arn)
-        time.sleep(1800)  # Check every 30 minutes (30 mins * 60 seconds)
+        time.sleep(1800)  
