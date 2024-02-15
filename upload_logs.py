@@ -66,20 +66,24 @@ s3_upload_base_path = "logs"
 for log_group_folder in os.listdir(local_logs_root):
     local_logs_path = os.path.join(local_logs_root, log_group_folder)
     
-    # Collect log files older than seven days
-    old_logs = collect_logs_older_than_seven_days(local_logs_path)
+    # Check if the path is a directory
+    if os.path.isdir(local_logs_path):
+        # Collect log files older than seven days
+        old_logs = collect_logs_older_than_seven_days(local_logs_path)
 
-    # Create a zip file for old logs
-    if old_logs:
-        zip_file_path = create_zip_folder(local_logs_path, old_logs)
+        # Create a zip file for old logs
+        if old_logs:
+            zip_file_path = create_zip_folder(local_logs_path, old_logs)
 
-        # Upload the zip file to S3
-        if upload_to_s3(zip_file_path, s3_bucket_name, s3_upload_base_path, local_logs_path):
-            # Remove old logs
-            for log_file in old_logs:
-                os.remove(os.path.join(local_logs_path, log_file))
-            print("Old logs from {} moved to S3 successfully.".format(local_logs_path))
+            # Upload the zip file to S3
+            if upload_to_s3(zip_file_path, s3_bucket_name, s3_upload_base_path, local_logs_path):
+                # Remove old logs
+                for log_file in old_logs:
+                    os.remove(os.path.join(local_logs_path, log_file))
+                print("Old logs from {} moved to S3 successfully.".format(local_logs_path))
+            else:
+                print("Failed to move old logs from {} to S3.".format(local_logs_path))
         else:
-            print("Failed to move old logs from {} to S3.".format(local_logs_path))
+            print("No old logs found in {}.".format(local_logs_path))
     else:
-        print("No old logs found in {}.".format(local_logs_path))
+        print("{} is not a directory.".format(local_logs_path))
