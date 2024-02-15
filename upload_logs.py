@@ -10,7 +10,7 @@ def create_zip_folder(local_path, files):
     Creates a zip file for the specified directory.
     """
     zip_file_name = local_path + ".zip"
-    with zipfile.ZipFile(zip_file_name, 'w') as zipf:
+    with zipfile.ZipFile(zip_file_name, 'w', allowZip64=True) as zipf:
         for file in files:
             zipf.write(os.path.join(local_path, file), file)
     return zip_file_name
