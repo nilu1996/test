@@ -51,14 +51,8 @@ def collect_logs_older_than_seven_days(logs_dir):
             logs.append(file_name)
     return logs
 
-# Specify your local logs folder paths
-local_logs_paths = [
-    "/var/opt/tableau/tableau_server/logs",
-    "/var/opt/tableau/tableau_server/data/tabsvc/logs/httpd",
-    "/var/opt/tableau/tableau_server/data/tabsvc/logs/collections",
-    "/var/opt/tableau/tableau_server/data/tabsvc/logs/httpd",
-    "/var/opt/tableau/tableau_server/data/tabsvc/logs/vizportal"
-]
+# Specify your local logs folder path
+local_logs_root = "/var/opt/tableau/tableau_server/data/tabsvc/logs/"
 
 # Specify your S3 bucket name
 s3_bucket_name = "gbt-tableaubucket"
@@ -66,8 +60,10 @@ s3_bucket_name = "gbt-tableaubucket"
 # Specify the base S3 path where logs should be uploaded
 s3_upload_base_path = "logs"
 
-# Upload logs from each local path
-for local_logs_path in local_logs_paths:
+# Iterate over subdirectories within the logs group folder
+for log_group_folder in os.listdir(local_logs_root):
+    local_logs_path = os.path.join(local_logs_root, log_group_folder)
+    
     # Collect log files older than seven days
     old_logs = collect_logs_older_than_seven_days(local_logs_path)
 
