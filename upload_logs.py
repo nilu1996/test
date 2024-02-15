@@ -46,9 +46,11 @@ def collect_logs_older_than_seven_days(logs_dir):
     seven_days_ago = datetime.now() - timedelta(days=7)
     for file_name in os.listdir(logs_dir):
         file_path = os.path.join(logs_dir, file_name)
-        modified_time = datetime.fromtimestamp(os.path.getmtime(file_path))
-        if modified_time < seven_days_ago:
-            logs.append(file_name)
+        # Check if the current item is a file and not a directory
+        if os.path.isfile(file_path):
+            modified_time = datetime.fromtimestamp(os.path.getmtime(file_path))
+            if modified_time < seven_days_ago:
+                logs.append(file_name)
     return logs
 
 # Specify your local logs folder path
