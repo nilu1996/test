@@ -1,20 +1,29 @@
-Subject: Technical Details for Ticket UA-3765 - Proof of Concept (POC)
-
-Hi Chandan,
-
-Please find below the technical outline for the proof of concept (POC):
-
-1. Creation of an IAM role is required to grant access to the S3 bucket designated for file storage.
-2. Configuration of Access Key and Secret Key is necessary for integration with the SFTP cloud. Please provide the relevant URL for setup.
-3. Upon setup, the SFTP cloud will provide us with the hostname and password for establishing communication between our local system and the SFTP cloud.
-4. Workflow:
-   - Once the connection is established with the SFTP cloud, files added from our local system will be reflected in the S3 bucket.
-5. Setting up SFTP on a Windows server requires installation of OpenSSH on the local machine.
-6. User setup is required from the Burp Suite team's end. Once the user has OpenSSH installed, we will provide them with the hostname and password for access.
-
-Note: To proceed with this POC, I require OpenSSH installed for testing purposes, which is the reason behind raising this ticket.
-
-Kindly review the approach outlined above and let me know if any adjustments are needed or if further exploration is required.
-
-Best regards,
-[Your Name]
+Tableau Backup and restore 
+  
+  For Dev and UAT Envirollemt steps to backup and restore:
+  1. Login to AWS Console
+  2. Select server where you have tableau installed. 
+  3. To perform backup run following commadn
+  
+    tsm maintenance backup -f backup.tsbak -d
+  4. Run below command to export all setting, 
+  tsm settings export -f <filename>.json 
+  
+  The backup file is assembled in a temporary location in the data directory
+   
+  /var/opt/tableau/tableau_server/data/tabsvc/files/backups/<filename>.tsbak
+  
+  
+   Next steps to Restore backup on server. 
+   Restore:
+   1. It is recommeced to keep backup file in defaul location. 
+   Make sure backup file should be in default location where we are taking Backup
+   location: /var/opt/tableau/tableau_server/data/tabsvc/files/backups/<filename>.tsbak
+   
+   Note: Check date when we trying to restore the backup. 
+   Run followng command to restore backup. 
+   tsm stop  -- stop the server first 
+   tsm settings import -f <filename>.json -- Import setting first
+   tsm pending-changes apply   
+   tsm maintenance restore -f backup-2024-02-14.tsbak
+   tsm restart 
