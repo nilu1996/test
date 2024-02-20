@@ -1,16 +1,7 @@
-Subject: Urgent: Issue Accessing Alteryx Server from GBT Network
-
-Dear Team,
-
-I hope this email finds you well.
-
-I am currently working on a proof of concept (POC) involving the configuration of Alteryx Server with S3 integration. To facilitate this process, I have created an account using the following URL: [Insert URL Here].
-
-Previously, I was able to access this standard website without any issues. However, I have encountered a problem as it is now being blocked within the GBT network.
-
-Could you please assist me in identifying the cause of this issue and provide guidance on the necessary steps to resolve it? Your prompt attention to this matter would be greatly appreciated.
-
-Thank you for your assistance.
-
-Best regards,
-[Your Name]
+1. Creation of an IAM role is required to grant access to the S3 bucket designated for file storage.
+2. Configuration of Access Key and Secret Key is necessary for integration with the SFTP cloud. https://app.sftpcloud.io/
+3. Upon setup, the SFTP cloud will provide us with the hostname and password for establishing communication between our local system and the SFTP cloud.
+4. Workflow:
+   - Once the connection is established with the SFTP cloud, files added from our local system will be reflected in the S3 bucket.
+5. Setting up SFTP on a Windows server requires installation of OpenSSH on the local machine.
+6. Once the user has OpenSSH installed, we will provide them with the hostname and password for access.
