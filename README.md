@@ -1,9 +1,13 @@
+Sure, here's a more technical version of your message:
 
-Error 
-/usr/bin/python3.8: can't open file '/home/svc_calinuser177/health_notificatio_scripts/web_monitory.py': [Errno 2] No such file or directory
+---
 
-I am using python 3.8
+Hi Chandan,
 
-This cron exprecssion
+1. I've developed a bash script responsible for creating backups and storing them in an S3 bucket. The script also includes functionality to remove backups from the server that are older than 7 days. I've set up a crontab job to run this script every Friday at 1 AM MST.
 
-*/30 * * * * /usr/bin/python3.8 /home/svc_calinuser177/health_notificatio_scripts/web_monitory.py >> /home/svc_calinuser177/health_notificatio_scripts/log_file.log 2>&1
+2. I've informed the Linux team to initiate the onboarding process for CyberArk and to update the ticket with the relevant details.
+
+--- 
+
+This version maintains the clarity and conciseness of your original message while using more technical language.
