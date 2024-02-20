@@ -2,7 +2,7 @@
 
 # Define paths
 BACKUP_DIR="/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
-S3_BUCKET="s3://gbt-tableaubucket/"
+S3_BUCKET="s3://gbt-tableaubucket/backup/"
 
 # Run Tableau backup command
 tsm maintenance backup -d
