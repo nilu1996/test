@@ -1,59 +1,46 @@
-Sure, here's a Proof of Concept (POC) outlining the steps to transfer data from a local system to an S3 bucket using the AWS Transfer Family SFTP service with WinSCP:
+Here's a Proof of Concept (POC) outlining the steps to share a file from a local system to an S3 bucket using IAM credentials:
 
-### Proof of Concept (POC): AWS Transfer Family SFTP with WinSCP
+### Proof of Concept (POC): Sharing File from Local to S3 Bucket using IAM Credentials
 
 #### Objective:
-Demonstrate the process of securely transferring data from a local system to an S3 bucket using AWS Transfer Family SFTP service and WinSCP.
+Demonstrate the process of securely sharing a file from a local system to an S3 bucket using IAM credentials for authentication.
 
 #### Prerequisites:
 1. AWS account with permissions to create resources.
-2. Installed WinSCP client on your local system.
+2. IAM user with appropriate permissions to access the target S3 bucket.
 
 #### Steps:
 
-1. **Set up AWS Transfer Family SFTP:**
+1. **IAM User Setup:**
    - Log in to the AWS Management Console.
-   - Navigate to the AWS Transfer Family service.
-   - Create an AWS Transfer Family server:
-     - Choose the SFTP protocol.
-     - Configure server settings (endpoint type, identity provider integration, logging).
-     - Review and create the server.
+   - Navigate to the IAM service.
+   - Create a new IAM user with programmatic access:
+     - Specify a username and select "Programmatic access".
+     - Attach policies granting access to the target S3 bucket (e.g., `AmazonS3FullAccess`).
+     - Note down the IAM user's access key ID and secret access key.
 
-2. **IAM Role Configuration:**
-   - Create an IAM role with permissions to access the target S3 bucket.
-   - Attach the `AmazonS3FullAccess` policy or create a custom policy with specific S3 permissions.
-   - Note down the IAM role ARN.
+2. **S3 Bucket Configuration:**
+   - Create or identify the target S3 bucket where you want to upload the file.
+   - Ensure that the IAM user has appropriate permissions (e.g., write access) to the S3 bucket.
 
-3. **User Setup:**
-   - Create an SFTP user within AWS Transfer Family.
-   - Associate the user with the IAM role created in the previous step.
-   - Define the user's home directory and other settings as needed.
+3. **AWS CLI Installation:**
+   - Install the AWS Command Line Interface (CLI) on your local system if not already installed.
+   - Configure the AWS CLI with the IAM user's access key ID and secret access key:
+     ```
+     aws configure
+     ```
 
-4. **Access Configuration:**
-   - Note down the SFTP server hostname provided by AWS Transfer Family.
-   - Open WinSCP on your local system.
-   - Create a new session:
-     - Enter the SFTP server hostname.
-     - Choose the SFTP protocol and port (usually 22).
-     - Enter the username and password for the SFTP user.
-     - Save the session settings.
+4. **Upload File to S3:**
+   - Use the AWS CLI to upload the file from your local system to the S3 bucket:
+     ```
+     aws s3 cp /path/to/local/file s3://bucket-name/
+     ```
 
-5. **Upload Files:**
-   - Connect to the SFTP server using WinSCP.
-   - Navigate to the desired directory on the SFTP server.
-   - Upload files from your local system to the SFTP server using WinSCP's interface.
-
-6. **Transfer to S3:**
-   - Configure AWS Transfer Family to automatically transfer files uploaded to the SFTP server to the target S3 bucket:
-     - Navigate to the "Workflows" tab in the AWS Transfer Family console.
-     - Create a new workflow:
-       - Specify the source SFTP server.
-       - Define the destination S3 bucket and any other transfer settings.
-       - Review and create the workflow.
-
-7. **Verification:**
-   - Monitor the transfer workflow in the AWS Transfer Family console to ensure that files uploaded via SFTP are successfully transferred to the designated S3 bucket.
-   - Verify the presence of the uploaded files in the S3 bucket.
+5. **Verification:**
+   - Verify that the file has been successfully uploaded to the S3 bucket by navigating to the S3 bucket in the AWS Management Console or using the AWS CLI:
+     ```
+     aws s3 ls s3://bucket-name/
+     ```
 
 #### Conclusion:
-This POC demonstrates the seamless integration between AWS Transfer Family SFTP service and WinSCP for secure file transfer from a local system to an S3 bucket. By following these steps, you can securely and efficiently transfer data to and from AWS services using familiar tools and protocols.
+This POC demonstrates the straightforward process of securely sharing a file from a local system to an S3 bucket using IAM credentials for authentication. By following these steps, you can effectively upload files to S3 buckets and manage access permissions using IAM users and policies.
