@@ -1,3 +1,1 @@
-Ticket #1361600 was rejected due to insufficient information. The requester was asked to provide hostnames and IP addresses, as the form submitted was unclear. The requester explained that the Tableau server lacks standardization, hence the mention of IP addresses instead of hostnames. They expressed concern that providing the non-standard hostnames might cause issues with the server. They sought guidance on whether providing the current hostnames would suffice.
-
-Ticket #1356433 was put on hold because the team lacked awareness of the project's status. Assistance was requested to resolve the situation.
+arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring
