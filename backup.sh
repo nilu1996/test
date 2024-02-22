@@ -12,14 +12,14 @@ tsm maintenance backup -d
 # Check if backup files exist
 if [ -n "$(find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -print -quit)" ]; then
     # Move backup file to S3 bucket
-    aws s3 cp "$BACKUP_DIR"*.tsbak "$S3_BUCKET"
+    aws s3 cp "$BACKUP_DIR"*.tsbak "$S3_BUCKET" --no-verify-ssl
     # Remove old backup files
     # Example: Remove files older than 7 days
     find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +7 -exec rm {} \;
 
     # Send success notification
-    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau Server backup completed successfully."
+    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau Server backup completed successfully." --no-verify-ssl
 else
     # Send failure notification
-    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau Server backup failed. No backup files found in $BACKUP_DIR"
+    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau Server backup failed. No backup files found in $BACKUP_DIR" --no-verify-ssl
 fi
