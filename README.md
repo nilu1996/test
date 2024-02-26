@@ -1,1 +1,1 @@
-/usr/bin/python3.8: can't open file '/home/svc_calinuser177/health_notificatio_scripts/web_monitory.py': [Errno 2] No such file or directory
+I have developed Bash script which will take backup on every Monday and Friday and move backup to s3 bucket. Once its done, We will received notification of SUCCESS or Failure of backup. 
