@@ -1,9 +1,1 @@
-No, Given key is for kind future used. It will start working from March 18,2023.
-
-I spend a lot time to activate this key, feel something is not correct from side.
-
-Then, I asked Paul to join the call and checked with him. 
-
-Key will not be available imedialty it will start working from March 18, 2023. 
-
-Paul is sharing details on same mail thred we are in with Jack to followup.
+The provided key is intended for future use and will become active starting March 18, 2023. After spending considerable time attempting to activate the key, I became concerned that there might be an issue from our end. Consequently, I invited Paul to join our call and sought clarification from him. Paul confirmed that the key will not be immediately available and reiterated that it is scheduled to commence functionality on March 18, 2023. He is currently sharing additional details within the same email thread we are engaged in, and Jack will be following up accordingly.
