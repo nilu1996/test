@@ -1,19 +1,42 @@
-Subject: Tableau Server Standardization - Linux Team Activity
+Please help me with write tablau conflucen documentation. You can add your inputs I need full doucmetation input to create maintance actitity page
 
-Hello Team,
+Update Microsoft driver not installled on tableua server
+Getting below error
 
-We are initiating the process for standardizing our Tableau Server deployment. As part of this initiative, the Linux team will undertake the following activities:
+This job failed on Feb 28, 2024, 4:06 PM after running for 0.0 min because of: com.tableausoftware.server.status.reporting.TableauRuntimeException: The drivers necessary to connect to the database server '10.201.30.110' are not properly installed on Tableau Server. Visit http://www.tableau.com/drivers to download driver setup files. The drivers necessary to connect to the database server '10.201.30.110' are not properly installed on Tableau Server. Visit http://www.tableau.com/drivers to download driver setup files. The drivers required to connect to the data source are not installed. Learn more
 
-Activity List:
-1. [Activity 1 Description]
-2. [Activity 2 Description]
+Solution:
+1. Serach for Microsoft driver sql driver by following link
+https://learn.microsoft.com/en-us/sql/connect/odbc/linux-mac/installing-the-microsoft-odbc-driver-for-sql-server?view=sql-server-ver15&tabs=alpine18-install%2Credhat17-install%2Cdebian8-install%2Credhat7-13-install%2Crhel7-offline#17
 
-Note: There will be no changes to the server hostname.
+2. Check Tableau server os version
+   Helo me with radhat version check command here
 
-To facilitate these actions, the Linux team may need to restart the server or stop the Tableau application for a certain period. We kindly request the Linux team to provide the preferred date and time for performing these activities.
+3. Choosed driver accordingly and perform stpes one by one
 
-@Linux Team: Could you please specify the timeframe required to execute these activities?
+ex: 
+#Download appropriate package for the OS version
+#Choose only ONE of the following, corresponding to your OS version
 
-Thank you for your cooperation.
+#RHEL 7 and Oracle Linux 7
+curl https://packages.microsoft.com/config/rhel/7/prod.repo | sudo tee /etc/yum.repos.d/mssql-release.repo
 
-Best regards, [Your Name]
+#RHEL 8 and Oracle Linux 8
+curl https://packages.microsoft.com/config/rhel/8/prod.repo | sudo tee /etc/yum.repos.d/mssql-release.repo
+
+#RHEL 9
+curl https://packages.microsoft.com/config/rhel/9/prod.repo | sudo tee /etc/yum.repos.d/mssql-release.repo
+
+sudo yum remove unixODBC-utf16 unixODBC-utf16-devel #to avoid conflicts
+sudo ACCEPT_EULA=Y yum install -y msodbcsql17
+# optional: for bcp and sqlcmd
+sudo ACCEPT_EULA=Y yum install -y mssql-tools
+echo 'export PATH="$PATH:/opt/mssql-tools/bin"' >> ~/.bashrc
+source ~/.bashrc
+# optional: for unixODBC development headers
+sudo yum install -y unixODBC-devel
+
+4. Stop Applucation: TSM Stop
+
+5. Start the APplication:
+   tsm start
