@@ -1,64 +1,19 @@
-1. /tmp/automated-installer -a tsmadmin -f /tmp/config.json -r /tmp/registration.json -s /tmp/secrets.properties TSRX-8C86-1230-CAB3-DA4F -v --accepteula --force /tmp/tableau-server.rpm
-   - This command is likely running an automated installer for Tableau Server.
-   - It installs Tableau Server using the provided configuration, registration, and secret files.
-   - `tsmadmin` is the username used for administrative tasks.
-   - `-v` enables verbose output.
-   - `--accepteula` automatically accepts the End User License Agreement.
-   - `--force` forces the installation even if a previous version exists.
-   - `/tmp/tableau-server.rpm` is the path to the Tableau Server RPM file.
-   
-2. source /etc/profile.d/tableau_server.sh
-   - This command sources a shell script (`tableau_server.sh`) located in the `/etc/profile.d/` directory.
-   - It likely sets environment variables or performs other setup tasks related to Tableau Server.
+Subject: Tableau Server Standardization - Linux Team Activity
 
-3. tsm status
-   - This command checks the status of Tableau Services Manager (TSM), which manages Tableau Server processes.
-   
-4. tsm stop
-   - This command stops all Tableau Server processes.
+Hello Team,
 
-5. tsm topology nodes get-bootstrap-file --file /tmp/bootstrap.json
-   - This command generates a bootstrap configuration file (`bootstrap.json`) containing information about the Tableau Server topology.
-   
-6. aws s3 cp /tmp/bootstrap.json s3://gbt-tableaubucket/dev-tsm-backups/bootstrap.json
-   - This command copies the generated bootstrap file to an Amazon S3 bucket named `gbt-tableaubucket` under the `dev-tsm-backups` directory.
-   
-7. tsm topology external-services repository enable -f /tmp/rdsconfig.json --no-ssl
-   - This command configures Tableau Server to use an external repository service (e.g., RDS) using the settings specified in the `rdsconfig.json` file.
-   - `--no-ssl` disables SSL for communication with the external repository.
-   
-8. cd /tmp/
-   - Changes the current directory to `/tmp/`.
-   
-9. ls
-   - Lists the contents of the current directory.
-   
-10. cat rdsconfig.json
-    - Displays the contents of the `rdsconfig.json` file.
-    
-11. vi rdsconfig.json
-    - Opens the `rdsconfig.json` file for editing using the vi text editor.
-    
-12. tsm status -v
-    - Checks the status of Tableau Services Manager (TSM) with verbose output.
-    
-13. curl localhost
-    - Sends an HTTP request to the local machine (`localhost`).
-    
-14. systemctl status firewalld
-    - Checks the status of the firewalld service.
-    
-15. iptables -l
-    - Lists the current IP packet filter rules.
-    
-16. clear
-    - Clears the terminal screen.
-    
-17. tsm licenses deactivate -k TSRX-8C86-1230-CAB3-DA4F
-    - Deactivates a Tableau Server license key specified by `TSRX-8C86-1230-CAB3-DA4F`.
-    
-18. tsm start
-    - Starts all Tableau Server processes.
-    
-19. tsm licenses list
-    - Lists all Tableau Server license keys.
+We are initiating the process for standardizing our Tableau Server deployment. As part of this initiative, the Linux team will undertake the following activities:
+
+Activity List:
+1. [Activity 1 Description]
+2. [Activity 2 Description]
+
+Note: There will be no changes to the server hostname.
+
+To facilitate these actions, the Linux team may need to restart the server or stop the Tableau application for a certain period. We kindly request the Linux team to provide the preferred date and time for performing these activities.
+
+@Linux Team: Could you please specify the timeframe required to execute these activities?
+
+Thank you for your cooperation.
+
+Best regards, [Your Name]
