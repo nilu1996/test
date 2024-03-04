@@ -1,1 +1,22 @@
-The provided key is intended for future use and will become active starting March 18, 2023. After spending considerable time attempting to activate the key, I became concerned that there might be an issue from our end. Consequently, I invited Paul to join our call and sought clarification from him. Paul confirmed that the key will not be immediately available and reiterated that it is scheduled to commence functionality on March 18, 2023. He is currently sharing additional details within the same email thread we are engaged in, and Jack will be following up accordingly.
+Subject: Request to Terminate Unused AWS Resources
+
+Hello Chandan,
+
+I hope this email finds you well.
+
+I am writing to bring to your attention the presence of certain AWS resources that are currently underutilized and need to be terminated to optimize our cloud infrastructure.
+
+Upon reviewing our AWS environment, it has come to my attention that there are additional resources that are no longer in active use. As part of our ongoing efforts to manage costs and streamline our infrastructure, I kindly request your assistance in identifying and terminating these resources.
+
+Please find below the list of AWS resources that are currently not being utilized:
+
+[Share link to resource list here]
+
+Could you please review the provided list at your earliest convenience and confirm when we can proceed with the termination of these resources? Your prompt action in this matter would be greatly appreciated.
+
+If you have any questions or require further clarification regarding the identified resources, please don't hesitate to reach out.
+
+Thank you for your cooperation.
+
+Best regards,
+[Your Name]
