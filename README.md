@@ -1,22 +1,16 @@
-Subject: Request to Terminate Unused AWS Resources
+Subject: Request to Remove Unused AWS Resources
 
-Hello Chandan,
+Hi Chandan,
 
-I hope this email finds you well.
+I hope you're doing well.
 
-I am writing to bring to your attention the presence of certain AWS resources that are currently underutilized and need to be terminated to optimize our cloud infrastructure.
+I noticed that we have some AWS resources that we're not using anymore. To save costs and keep things tidy, we should remove them.
 
-Upon reviewing our AWS environment, it has come to my attention that there are additional resources that are no longer in active use. As part of our ongoing efforts to manage costs and streamline our infrastructure, I kindly request your assistance in identifying and terminating these resources.
+Here's a list of the resources that we're not using: [Insert link to the list here]
 
-Please find below the list of AWS resources that are currently not being utilized:
+Can you take a look and let me know when we can remove them?
 
-[Share link to resource list here]
+Let me know if you have any questions.
 
-Could you please review the provided list at your earliest convenience and confirm when we can proceed with the termination of these resources? Your prompt action in this matter would be greatly appreciated.
-
-If you have any questions or require further clarification regarding the identified resources, please don't hesitate to reach out.
-
-Thank you for your cooperation.
-
-Best regards,
+Thanks,
 [Your Name]
