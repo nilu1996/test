@@ -3,11 +3,13 @@ import datetime
 import boto3
 from botocore.exceptions import NoCredentialsError
 
+# Set the default region for boto3 globally
+os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+
 # Define paths
 BACKUP_DIR = "/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
 S3_BUCKET = "gbt-uattableau"
 S3_PREFIX = "backup/"
-S3_REGION = "us-east-1"  # Specify the region here
 SNS_ARN = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
 EMAIL_SUBJECT = "Tableau Server Backup Notification"
 
@@ -32,12 +34,12 @@ if os.path.isfile(os.path.join(BACKUP_DIR, backup_file)):
 
     try:
         # Move backup file to S3 bucket
-        s3_client = boto3.client("s3", region_name=S3_REGION)  # Specify the region here
+        s3_client = boto3.client("s3")  # No need to specify region here
         s3_key = S3_PREFIX + new_backup_file
         s3_client.upload_file(os.path.join(BACKUP_DIR, new_backup_file), S3_BUCKET, s3_key)
 
         # Send success notification
-        sns_client = boto3.client("sns", region_name=S3_REGION)  # Specify the region here
+        sns_client = boto3.client("sns")  # No need to specify region here
         sns_client.publish(
             TopicArn=SNS_ARN,
             Subject=EMAIL_SUBJECT,
@@ -45,7 +47,7 @@ if os.path.isfile(os.path.join(BACKUP_DIR, backup_file)):
         )
     except NoCredentialsError:
         # Send failure notification (no AWS credentials)
-        sns_client = boto3.client("sns", region_name=S3_REGION)  # Specify the region here
+        sns_client = boto3.client("sns")  # No need to specify region here
         sns_client.publish(
             TopicArn=SNS_ARN,
             Subject=EMAIL_SUBJECT,
@@ -53,7 +55,7 @@ if os.path.isfile(os.path.join(BACKUP_DIR, backup_file)):
         )
 else:
     # Send failure notification (backup file not found)
-    sns_client = boto3.client("sns", region_name=S3_REGION)  # Specify the region here
+    sns_client = boto3.client("sns")  # No need to specify region here
     sns_client.publish(
         TopicArn=SNS_ARN,
         Subject=EMAIL_SUBJECT,
