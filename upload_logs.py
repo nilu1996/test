@@ -1,30 +1,38 @@
-import urllib.request
+import os
+import subprocess
+import datetime
 import boto3
-import time
 
-def send_sns_notification(topic_arn, message, region_name):
-    sns_client = boto3.client('sns', region_name=region_name, verify=False)
-    sns_client.publish(TopicArn=topic_arn, Message=message)
-    print("SNS notification sent successfully.")
+# Define paths
+BACKUP_DIR = "/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
+S3_BUCKET = "gbt-uattableau"
+S3_PREFIX = "backup/"
+SNS_ARN = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
+EMAIL_SUBJECT = "Tableau Server Backup Notification"
 
-def check_website_availability(urls, sns_topic_arn, region_name):
-    for url in urls:
-        try:
-            response = urllib.request.urlopen(url)
-            status_code = response.getcode()
-            if status_code == 200:
-                print(f"Website {url} is available.")
-            else:
-                message = f"The website {url} is unavailable. Status code: {status_code}"
-                send_sns_notification(sns_topic_arn, message, region_name)
-        except Exception as e:
-            message = f"Failed to connect to the website {url}: {e}"
-            send_sns_notification(sns_topic_arn, message, region_name)
+# Run Tableau backup command
+backup_file = "backup.tsbak"
+subprocess.run(["tsm", "maintenance", "backup", "-f", backup_file, "-d"], cwd=BACKUP_DIR)
 
-if __name__ == "__main__":
-    website_urls = ["https://devtableau.gbt.gbtad.com/", "https://uattableau.gbt.gbtad.com/"]
-    sns_topic_arn = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
-    region_name = "us-east-1"  # Replace with your desired AWS region
-    while True:
-        check_website_availability(website_urls, sns_topic_arn, region_name)
-        time.sleep(1800)
+# Check if backup file exists
+if os.path.isfile(os.path.join(BACKUP_DIR, backup_file)):
+    # Move backup file to S3 bucket
+    s3_client = boto3.client("s3")
+    s3_key = f"{S3_PREFIX}{backup_file}"
+    s3_client.upload_file(os.path.join(BACKUP_DIR, backup_file), S3_BUCKET, s3_key)
+
+    # Send success notification
+    sns_client = boto3.client("sns")
+    sns_client.publish(
+        TopicArn=SNS_ARN,
+        Subject=EMAIL_SUBJECT,
+        Message="Tableau UAT Server backup completed successfully."
+    )
+else:
+    # Send failure notification
+    sns_client = boto3.client("sns")
+    sns_client.publish(
+        TopicArn=SNS_ARN,
+        Subject=EMAIL_SUBJECT,
+        Message=f"Tableau UAT Server backup failed. Backup file {backup_file} not found in {BACKUP_DIR}"
+    )
