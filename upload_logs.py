@@ -18,7 +18,7 @@ subprocess.run(["tsm", "maintenance", "backup", "-f", backup_file, "-d"], cwd=BA
 if os.path.isfile(os.path.join(BACKUP_DIR, backup_file)):
     # Move backup file to S3 bucket
     s3_client = boto3.client("s3")
-    s3_key = f"{S3_PREFIX}{backup_file}"
+    s3_key = S3_PREFIX + backup_file
     s3_client.upload_file(os.path.join(BACKUP_DIR, backup_file), S3_BUCKET, s3_key)
 
     # Send success notification
