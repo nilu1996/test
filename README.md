@@ -1,16 +1,37 @@
-Subject: AWS SageMaker Integration with Okta and User Restriction Discussion
+Alteryx to OKTA Integration
+Overview
+This document outlines the steps required to integrate Alteryx with OKTA for authentication purposes.
 
-Dear Chandan,
+Steps
+Raise Ticket Request
 
-During today's call, we engaged with the AWS Support ticket team to discuss two key topics. The discussion was structured into two parts, as outlined below:
+Raise a ticket request to the IAM team requesting the creation of metadata required for integration.
+Reference Ticket: [Insert Ticket Number]
+Receive Metadata URL
 
-1. Integration of AWS SageMaker with Okta:
-   We are seeking to integrate AWS SageMaker seamlessly into the Okta dashboard, akin to our previous implementation with Redshift. Documentation pertaining to the Redshift integration has been shared for reference. It's worth noting that IDP authentication is currently unavailable for AWS SageMaker. The AWS team has committed to testing and exploring potential solutions, with plans to reconvene for further discussion once their findings are available.
+Upon receiving the metadata, note the URL provided. Append "/metadata" at the end.
+Metadata URL: [Insert URL]
+Network Accessibility Check
 
-2. User Restriction Mechanisms:
-   We discussed the approach proposed by the AWS team regarding user restriction mechanisms.
+Verify if the provided URL is allowed in the GBT network.
+Raise Firewall Ticket (If Necessary)
 
-We appreciate your attention to these matters and look forward to further collaboration. 
+If the URL is not accessible within the GBT network, raise a firewall ticket to allow access.
+Firewall Ticket: [Insert Ticket Number]
+Access Alteryx Windows Server
 
-Best regards,
-Nilesh
+Open Alteryx Settings Dialog Box
+
+Navigate to SAML Configuration Page
+
+In the IDP Meta section, specify the metadata URL.
+In the Metadata section, specify the metadata URL.
+Verify IDP Connection
+
+Click on the "Verify IDP" button to initiate the connection verification process.
+Enter Credentials and Test Connection
+
+Enter the required credentials and test the connection.
+Complete Configuration
+
+Click on "Next" until the configuration process is finished. This will restart the
