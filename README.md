@@ -1,68 +1,68 @@
-Certainly! Here's how you can draft the Confluence page:
+Certainly! Here's how you can summarize and present the technical details of the Python script and its functionality in a Confluence page:
 
 ---
 
-# CloudWatch Rule: Instance Health Monitoring
+# Python Script: web_monitor.py
 
 ## Overview
 
-The **Instance Health Monitoring** CloudWatch rule is designed to monitor the health status of instances within your AWS infrastructure. Whenever there is a change in the health status of an instance, this rule triggers an alert notification via email. This notification ensures that the relevant stakeholders are promptly informed of any changes in the instance health, enabling timely action to maintain system reliability and performance.
+The **web_monitor.py** script is a Python application developed to monitor the health status of web servers. It checks the availability of specified URLs on both the development (dev) and user acceptance testing (uat) environments. If a URL is unreachable, indicating a server issue, the script triggers an email notification to alert stakeholders of the problem.
 
-## Configuration
+## Script Details
 
-### Rule Name:
-Instance-Health-Monitoring
+### Script Name:
+web_monitor.py
 
-### CloudWatch Rule Details:
+### Server Name:
+UST
 
-- **Name:** Instance-Health-Monitoring
-- **Description:** Monitors the health status of instances and triggers alerts on status changes.
-- **Event Pattern:** Define the event pattern that matches changes in instance health status.
-- **Actions:** Specify the action to be taken when the rule is triggered, such as sending notifications via email.
-- **Targets:** Configure the targets for the rule, such as the SNS topic where notifications will be published.
+### Python Version:
+3.8
 
-## SNS Topic
+### Script Location:
+/home/svc/webmonitor.py
 
-### Topic Name:
-Instance-Health-Monitoring
+### Functionality:
 
-The **Instance-Health-Monitoring** SNS topic is the destination for alert notifications triggered by the CloudWatch rule. When the health status of an instance changes, an alert message is published to this topic, ensuring that relevant stakeholders receive timely notifications via email.
+- **Monitoring URLs:** The script monitors the health status of URLs on both the development (dev) and user acceptance testing (uat) environments.
+- **Notification on Unavailability:** If a URL is unreachable, indicating a server issue, the script triggers an email notification to alert stakeholders.
+- **Screenshot or Email:** Upon triggering a notification, the script captures a screenshot or sends an email to provide visual evidence of the issue.
+
+### GitHub Location:
+[Provide GitHub Repository Link Here]
 
 ## Implementation Steps
 
-To implement the **Instance Health Monitoring** CloudWatch rule, follow these steps:
+To deploy and configure the **web_monitor.py** script, follow these steps:
 
-1. **Create CloudWatch Rule:**
-   - Log in to the AWS Management Console.
-   - Navigate to the CloudWatch service.
-   - Select "Rules" from the left-hand menu.
-   - Click on "Create rule" button.
-   - Configure the rule details, including name, description, event pattern, actions, and targets.
-   - Save the rule.
+1. **Install Python 3.8:**
+   - Ensure Python 3.8 is installed on the server where the script will be executed.
 
-2. **Configure SNS Topic:**
-   - Navigate to the SNS service in the AWS Management Console.
-   - Create a new topic with the name **Instance-Health-Monitoring**.
-   - Optionally, subscribe stakeholders to the topic to ensure they receive notifications.
+2. **Download the Script:**
+   - Download the **web_monitor.py** script from the specified GitHub location or copy it to the designated location on the server.
 
-3. **Test the Configuration:**
-   - Simulate changes in instance health status to ensure that the CloudWatch rule triggers alerts correctly.
-   - Verify that notifications are delivered to the specified email addresses via the SNS topic.
+3. **Configure Script Parameters:**
+   - Open the script in a text editor.
+   - Modify the script to specify the URLs to monitor and the email addresses to which notifications should be sent.
 
-## Troubleshooting
+4. **Install Dependencies:**
+   - If the script relies on external libraries or modules, ensure they are installed using pip or another package manager.
 
-If you encounter any issues with the **Instance Health Monitoring** setup, consider the following troubleshooting steps:
+5. **Test Execution:**
+   - Run the script manually to verify its functionality.
+   - Ensure that email notifications are triggered when URLs become unreachable.
 
-- Verify that the CloudWatch rule is correctly configured with the appropriate event pattern and targets.
-- Ensure that the SNS topic subscription is active and the email addresses are correct.
-- Check CloudWatch Logs for any errors or issues related to rule execution.
+6. **Set up Cron Job (Optional):**
+   - Schedule the script to run periodically using a cron job to automate the monitoring process.
 
-If the issue persists, consult AWS documentation or contact AWS support for further assistance.
+## Example Notification
+
+[Insert Example Email Notification or Screenshot Here]
 
 ## Conclusion
 
-The **Instance Health Monitoring** CloudWatch rule, combined with the **Instance-Health-Monitoring** SNS topic, provides a robust mechanism for monitoring and alerting on changes in instance health status. By promptly notifying stakeholders of such changes, organizations can proactively address issues and ensure the continuous reliability and performance of their AWS infrastructure.
+The **web_monitor.py** script provides a simple yet effective solution for monitoring the health status of web servers. By promptly notifying stakeholders of server issues, organizations can take proactive measures to resolve problems and ensure the continuous availability and reliability of their web services.
 
 ---
 
-Feel free to adjust the content as needed to fit your specific requirements or organizational standards!
+Feel free to customize the content further to include any additional details or specifications relevant to your deployment environment or requirements!
