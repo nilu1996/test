@@ -1,33 +1,76 @@
-**Alteryx Environment Overview**
+**Configuring SAML Authentication for Tableau Server with Okta**
 
 ---
 
-## Introduction
+### Before You Begin:
 
-This document provides an overview of the Alteryx environment hosted under the domain amerxgbt.okta.com. The environment consists of both Alteryx Sandbox and Alteryx Production instances, which serve distinct purposes in our data analytics and workflow management processes.
+1. **Export IdP Metadata XML:**
+   - Go to your IdP’s website or application and export the IdP’s metadata XML file.
+   - Confirm that the metadata XML includes a SingleSignOnService element with binding set to HTTP-POST.
 
-## Environment Details
+2. **Gather Certificate Files:**
+   - Obtain the certificate files required for SAML authentication from your IdP.
+   - Place these certificate files on the Tableau Server.
 
-### Alteryx Sandbox
+3. **Create SAML Folder on Tableau Server:**
+   - Create a new folder named "SAML" in the Tableau Server directory.
+   - Place copies of the SAML certificate files in this folder.
 
-The Alteryx Sandbox environment is designed for testing, experimentation, and development purposes. It allows users to explore Alteryx functionalities, build and refine workflows, and conduct trial runs without impacting the production environment. The sandbox environment offers a safe and controlled space for users to innovate and iterate on their analytics projects.
+### Step 1: Configure SAML Settings on Tableau Server:
 
-### Alteryx Production
+- Open the command prompt shell and run the following command to configure SAML settings (replace placeholder values with actual paths and filenames):
+   ```
+   tsm authentication saml configure --idp-entity-id https://tableau-server --idp-metadata "C:\Program Files\Tableau\Tableau Server\SAML\<metadata-file.xml>" --idp-return-url https://tableau-server --cert-file "C:\Program Files\Tableau\Tableau Server\SAML\<file.crt>" --key-file "C:\Program Files\Tableau\Tableau Server\SAML\<file.key>"
+   ```
 
-The Alteryx Production environment is the live, operational environment used for executing critical workflows and processing business-critical data. It is optimized for performance, reliability, and scalability to support the organization's production-level data analytics and automation needs. Workflows deployed in the production environment are expected to meet stringent quality standards and adhere to established data governance policies.
+- If using a protected PKCS#8 key, set the passphrase:
+   ```
+   tsm configuration set -k wgserver.saml.key.passphrase -v <passphrase>
+   ```
 
-## Access Information
+- Enable SAML authentication if not already enabled:
+   ```
+   tsm authentication saml enable
+   ```
 
-Both the Alteryx Sandbox and Alteryx Production environments are accessible through the domain amerxgbt.okta.com. Users with appropriate permissions can log in to their respective environments using their Okta credentials.
+- Apply changes:
+   ```
+   tsm pending-changes apply
+   ```
 
-### Screenshot
+### Step 2: Generate Tableau Server Metadata and Configure IdP:
 
-![Alteryx Environment Screenshot](insert_screenshot_link_here)
+- Run the command to generate the required XML metadata file for Tableau Server:
+   ```
+   tsm authentication saml export-metadata -f <file-name.xml>
+   ```
 
-## Conclusion
+- On your IdP’s website or application, add Tableau Server as a Service Provider and import the generated metadata file.
 
-The Alteryx environment hosted under amerxgbt.okta.com provides users with a comprehensive platform for data analytics, workflow development, and automation. By leveraging both the sandbox and production environments, users can streamline their analytics workflows, enhance decision-making processes, and drive business growth.
+### Step 3: Match Assertions (if needed):
 
----
+- Ensure that assertion values in Tableau Server configuration match those passed by your IdP.
+- Use the provided table to map assertion values accordingly.
 
-Feel free to customize the content further to include any additional details or specifications
+### Optional Steps:
+
+- **Disable Client Types from Using SAML:**
+  ```
+  tsm authentication saml configure --desktop-access disable
+  tsm authentication saml configure --mobile-access disable
+  tsm pending-changes apply
+  ```
+
+- **Add AuthNContextClassRef Value:**
+  ```
+  tsm configuration set -k wgserver.saml.authcontexts -v <value>
+  tsm pending-changes apply
+  ```
+
+### Conclusion:
+
+By following these steps, you can successfully configure SAML authentication for Tableau Server with Okta as the Identity Provider. Ensure thorough testing and monitoring to ensure a smooth authentication experience for users accessing Tableau Server.
+
+--- 
+
+Feel free to customize the steps further based on your specific environment and requirements!
