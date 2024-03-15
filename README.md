@@ -1,76 +1,47 @@
-**Configuring SAML Authentication for Tableau Server with Okta**
+Certainly! Let's break down the details for each of these roles within Alteryx:
 
----
+1. **Curator**:
+   - **Description**: The Curator role typically has permissions related to managing and curating content within the Alteryx Gallery.
+   - **Permissions**:
+     - Ability to publish, update, and delete workflows in the Gallery.
+     - Manage collections and organize content within the Gallery.
+     - Assign tags and metadata to workflows for easier search and categorization.
+     - Moderate content uploaded by users, ensuring quality and compliance with organizational standards.
+     - View and analyze usage statistics for workflows and collections.
 
-### Before You Begin:
+2. **Artisan**:
+   - **Description**: The Artisan role is often associated with users who create and design workflows within Alteryx Designer.
+   - **Permissions**:
+     - Create, edit, and save workflows in Alteryx Designer.
+     - Access and utilize data connections to input and output data.
+     - Utilize tools and functionalities within Alteryx Designer to manipulate and analyze data.
+     - Test and debug workflows to ensure functionality and accuracy.
+     - Publish workflows to the Alteryx Gallery for sharing and collaboration (if granted permission).
 
-1. **Export IdP Metadata XML:**
-   - Go to your IdP’s website or application and export the IdP’s metadata XML file.
-   - Confirm that the metadata XML includes a SingleSignOnService element with binding set to HTTP-POST.
+3. **Viewer**:
+   - **Description**: The Viewer role is typically assigned to users who primarily consume and interact with content within the Alteryx Gallery.
+   - **Permissions**:
+     - View and execute published workflows in the Alteryx Gallery.
+     - Access and download workflow results and output data.
+     - View metadata and documentation associated with workflows.
+     - Comment on workflows and engage in discussions with other users (if enabled).
+     - Limited ability to create and manage personal collections or favorites.
 
-2. **Gather Certificate Files:**
-   - Obtain the certificate files required for SAML authentication from your IdP.
-   - Place these certificate files on the Tableau Server.
+4. **Member**:
+   - **Description**: The Member role may represent a general user role with basic access to Alteryx Server functionalities.
+   - **Permissions**:
+     - Execute published workflows in the Alteryx Gallery.
+     - Access and download workflow results and output data.
+     - Limited ability to interact with content and workflows within the Alteryx Gallery.
+     - May have restricted access to certain functionalities or features based on organizational policies.
+     - Typically granted to users who require basic access to Alteryx Server resources.
 
-3. **Create SAML Folder on Tableau Server:**
-   - Create a new folder named "SAML" in the Tableau Server directory.
-   - Place copies of the SAML certificate files in this folder.
+5. **Default**:
+   - **Description**: The Default role may represent the initial permissions assigned to new users before they are assigned to specific roles.
+   - **Permissions**:
+     - Basic access to Alteryx Server functionalities.
+     - Limited permissions to view and interact with content within the Alteryx Gallery.
+     - May have restrictions on certain actions until the user is assigned to a more specific role.
+     - Generally used as a placeholder until users are assigned to roles that align with their job functions or responsibilities.
 
-### Step 1: Configure SAML Settings on Tableau Server:
-
-- Open the command prompt shell and run the following command to configure SAML settings (replace placeholder values with actual paths and filenames):
-   ```
-   tsm authentication saml configure --idp-entity-id https://tableau-server --idp-metadata "C:\Program Files\Tableau\Tableau Server\SAML\<metadata-file.xml>" --idp-return-url https://tableau-server --cert-file "C:\Program Files\Tableau\Tableau Server\SAML\<file.crt>" --key-file "C:\Program Files\Tableau\Tableau Server\SAML\<file.key>"
-   ```
-
-- If using a protected PKCS#8 key, set the passphrase:
-   ```
-   tsm configuration set -k wgserver.saml.key.passphrase -v <passphrase>
-   ```
-
-- Enable SAML authentication if not already enabled:
-   ```
-   tsm authentication saml enable
-   ```
-
-- Apply changes:
-   ```
-   tsm pending-changes apply
-   ```
-
-### Step 2: Generate Tableau Server Metadata and Configure IdP:
-
-- Run the command to generate the required XML metadata file for Tableau Server:
-   ```
-   tsm authentication saml export-metadata -f <file-name.xml>
-   ```
-
-- On your IdP’s website or application, add Tableau Server as a Service Provider and import the generated metadata file.
-
-### Step 3: Match Assertions (if needed):
-
-- Ensure that assertion values in Tableau Server configuration match those passed by your IdP.
-- Use the provided table to map assertion values accordingly.
-
-### Optional Steps:
-
-- **Disable Client Types from Using SAML:**
-  ```
-  tsm authentication saml configure --desktop-access disable
-  tsm authentication saml configure --mobile-access disable
-  tsm pending-changes apply
-  ```
-
-- **Add AuthNContextClassRef Value:**
-  ```
-  tsm configuration set -k wgserver.saml.authcontexts -v <value>
-  tsm pending-changes apply
-  ```
-
-### Conclusion:
-
-By following these steps, you can successfully configure SAML authentication for Tableau Server with Okta as the Identity Provider. Ensure thorough testing and monitoring to ensure a smooth authentication experience for users accessing Tableau Server.
-
---- 
-
-Feel free to customize the steps further based on your specific environment and requirements!
+These descriptions provide an overview of the typical permissions associated with each role in Alteryx. Keep in mind that actual permissions may vary depending on how the Alteryx Server environment is configured and customized within your organization.
