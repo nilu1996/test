@@ -1,25 +1,23 @@
 Alteryx Patching Activity:
-Before downloading Laterst patch from Alteryx website please note below point:
 
-1. Make sure you take backup of Alteryx server.
-   Backup Process: Share URL
-2. Check Alteryx Snapshot from AWS Site
-3. Make sure you have server licence in hand we need this to download Patch from website.
-   Licence Detaiils: Share URL
-4. Note: Alteryx never share any notifications when they relase the latest patch, We need to check in every quarter. 
+Before initiating the Alteryx patching process, it's crucial to adhere to the following points:
 
-1. Go to alteryx https://downloads.alteryx.com/
-2. Follwo the version we need to download
-   - To check version details go home Page of https://alteryx.gbt.gbtad.com/gallery/#!/login
-   - Click right profile
-   - At the Bottom you will see version details.
-3. Enter Email id and passoword we craeted with alteryx , selcet the server version.
-4. Downlaod the Patch version according.
+1. Ensure that a backup of the Alteryx server is taken before proceeding with any patching activity. For the backup process, refer to the Share URL for detailed instructions.
+2. Verify the Alteryx Snapshot from the AWS Site to ensure compatibility with the upcoming patch.
+3. Confirm that the server license is readily available as it's required to download the patch from the Alteryx website. For license details, refer to the Share URL.
+4. Note: Alteryx does not provide notifications upon releasing the latest patch. It's imperative to check for updates quarterly.
 
-Installtion steps:
-1. Stop both Alteryx Worker and Priamry note alteryx service
-2. Click on downaloed exe and start installing exe. 
-3. once finish start the application.
-4. Start the alteryx service from both applicaiton
-5. Check applicaiton funcatinality.
-   
+If you find anything missing:
+
+Please refer to the Confluence page for comprehensive data on the Alteryx patching process, including detailed instructions and relevant URLs for backup procedures, license details, and version verification.
+
+Installation Steps:
+
+1. Stop both Alteryx Worker and Primary Alteryx services before proceeding with the installation.
+2. Navigate to https://downloads.alteryx.com/ to download the required patch version.
+3. Follow the version details provided on the Alteryx home page (https://alteryx.gbt.gbtad.com/gallery/#!/login) to ensure compatibility with the desired patch.
+4. Enter the email ID and password associated with the Alteryx account and select the server version to download the patch.
+5. Once the patch is downloaded, execute the downloaded executable file to begin the installation process.
+6. Upon completion of the installation, start the Alteryx application.
+7. Start both the Alteryx Worker and Primary Alteryx services.
+8. Verify the functionality of the application to ensure successful installation and patching.
