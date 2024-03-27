@@ -19,8 +19,8 @@ aws s3 cp s3://biplt-explore/sagemaker/autostop.py autostop.py
 
 
 echo "Detecting Python install with boto3 install"
-sudo apt-get update -y
-sudo apt-get install -y vim 
+# sudo apt-get update -y
+# sudo apt-get install -y vim 
 sudo sh -c 'printf "#!/bin/sh\nexit 0" > /usr/sbin/policy-rc.d'
 ## required as part of https://stackoverflow.com/questions/46247032/how-to-solve-invoke-rc-d-policy-rc-d-denied-execution-of-start-when-building
 sudo apt-get install -y cron
