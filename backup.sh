@@ -3,7 +3,7 @@ set -ex
 
 # PARAMETERS 
 IDLE_TIME=600  # in seconds. Change this 
-NOTEBOOK_INPUT="s3://biplt-explore/sagemaker/autostop.ipynb"
+NOTEBOOK_INPUT="s3://biplt-explore/sagemaker/autostop.py"
 NOTEBOOK_OUTPUT="output_autostop.ipynb"
 
 # Check if Papermill is installed
@@ -25,5 +25,8 @@ else
 fi
 echo "Found boto3 at $PYTHON_DIR"
 
-# Execute autostop notebook using Papermill
-papermill "$NOTEBOOK_INPUT" "$NOTEBOOK_OUTPUT" -p idle_time "$IDLE_TIME" --region "$AWS_DEFAULT_REGION"
+# Fetch autostop script from S3 bucket
+aws s3 cp "$NOTEBOOK_INPUT" autostop.py
+
+# Execute autostop notebook using Papermill with SSL verification disabled
+papermill autostop.py "$NOTEBOOK_OUTPUT" -p idle_time "$IDLE_TIME" --region "$AWS_DEFAULT_REGION" --no-progress-bar --log-output --ssl-no-verify
