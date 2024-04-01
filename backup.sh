@@ -1,32 +1,24 @@
 #!/bin/bash
-set -ex
 
-# PARAMETERS 
-IDLE_TIME=600  # in seconds. Change this 
-NOTEBOOK_INPUT="s3://biplt-explore/sagemaker/autostop.py"
-NOTEBOOK_OUTPUT="output_autostop.ipynb"
+# Define paths
+BACKUP_DIR="/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
+S3_BUCKET="s3://gbt-uattableau/backup/"
+SNS_ARN="arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
+EMAIL_SUBJECT="Tableau Server Backup Notification"
 
-# Check if Papermill is installed
-if ! command -v papermill &> /dev/null; then
-    echo "Error: Papermill is not installed. Please install it using 'pip install papermill'." >&2
-    exit 1
-fi
+# Run Tableau backup command
+tsm maintenance backup -f backup.tsbak -d
+# Check if backup files exist
+if [ -n "$(find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -print -quit)" ]; then
+    # Move backup file to S3 bucket
+    aws s3 cp "$BACKUP_DIR"*.tsbak "$S3_BUCKET" --no-verify-ssl
+    # Remove old backup files
+    # Example: Remove files older than 7 days
+    find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +7 -exec rm {} \;
 
-# Detect Python install with boto3 install
-CONDA_PYTHON_DIR=$(source /opt/conda/bin/activate base && which python)
-if $CONDA_PYTHON_DIR -c "import boto3" 2>/dev/null; then
-    PYTHON_DIR=$CONDA_PYTHON_DIR
-elif /usr/bin/python -c "import boto3" 2>/dev/null; then
-    PYTHON_DIR='/usr/bin/python'
+    # Send success notification
+    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup completed successfully." --no-verify-ssl
 else
-    # If no boto3 found in Python or Python3, exit
-    echo "No boto3 found in Python or Python3. Exiting..."
-    exit 1
+    # Send failure notification
+    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup failed. No backup files found in $BACKUP_DIR" --no-verify-ssl
 fi
-echo "Found boto3 at $PYTHON_DIR"
-
-# Fetch autostop script from S3 bucket
-aws s3 cp "$NOTEBOOK_INPUT" autostop.py
-
-# Execute autostop notebook using Papermill with SSL verification disabled
-papermill autostop.py "$NOTEBOOK_OUTPUT" -p idle_time "$IDLE_TIME" --region "$AWS_DEFAULT_REGION" --no-progress-bar --log-output --ssl-no-verify
