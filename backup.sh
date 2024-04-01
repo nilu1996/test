@@ -8,17 +8,18 @@ EMAIL_SUBJECT="Tableau Server Backup Notification"
 
 # Run Tableau backup command
 tsm maintenance backup -f backup.tsbak -d
-# Check if backup files exist
-if [ -n "$(find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -print -quit)" ]; then
-    # Move backup file to S3 bucket
-    aws s3 cp "$BACKUP_DIR"*.tsbak "$S3_BUCKET" --no-verify-ssl
-    # Remove old backup files
-    # Example: Remove files older than 7 days
-    find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +7 -exec rm {} \;
 
+# Remove backup files older than 2 days
+find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +2 -exec rm {} \;
+
+# Check if backup files exist after backup generation
+if [ -n "$(find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -print -quit)" ]; then
+    # Move latest backup file to S3 bucket
+    aws s3 cp "$BACKUP_DIR"*.tsbak "$S3_BUCKET" --no-verify-ssl
+    
     # Send success notification
     aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup completed successfully." --no-verify-ssl
 else
-    # Send failure notification
+    # Send failure notification if no backup files are found
     aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup failed. No backup files found in $BACKUP_DIR" --no-verify-ssl
 fi
