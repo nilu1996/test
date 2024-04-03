@@ -1,18 +1,22 @@
-Subject: Inquiry Regarding Storage of Model Artifacts and Connectivity Options
+Hello,
 
-Dear Team,
+Regarding the integration between Tableau and Okta:
 
-I hope this email finds you well. I am reaching out to inquire about the process of storing model artifacts once a model is ready for deployment, as well as the available resources and connectivity options within our environment.
+1. **Tableau Dev:** Since step number 3 was not followed, users are able to log in using their email addresses without any issues.
 
-Specifically, I am interested in understanding:
-1. The recommended approach for storing model artifacts.
-2. The resources available for storage within our environment.
-3. How connectivity to the storage resources can be established.
+2. **Tableau UAT:** After following step number 3 and adding assertion details in Okta, users are unable to log in using their email IDs. This is because the Okta configuration does not support the Email ID attribute as per the documentation.
 
-Could you please provide more information on these aspects, including any best practices or considerations we should be aware of? Additionally, if there are any existing guidelines or documentation on this topic, I would greatly appreciate it if you could share them with me.
+Regarding your question about whether to remove the configuration from Okta:
 
-Thank you for your assistance in advance. I look forward to your insights on this matter.
+Removing the configuration from Okta may resolve the issue of users not being able to log in using their email IDs. However, it's important to consider the impact of this action:
 
-Best regards,
+- **Immediate Impact:** Users will be able to log in using their email IDs, which may align with the current login behavior in the development environment.
+  
+- **Future Impact:** Removing the configuration may affect any future integrations or authentication mechanisms that rely on the Okta configuration. It's essential to assess whether any other applications or services depend on this configuration and whether there are alternative solutions or workarounds.
 
+Before making any changes, it's recommended to consult with the Okta team to understand the implications and potential impact on other systems or processes. Additionally, testing the changes in a controlled environment can help ensure that the desired outcome is achieved without causing any unforeseen issues.
+
+Let me know if you need further clarification or assistance.
+
+Best regards,  
 [Your Name]
