@@ -1,50 +1,15 @@
-Subject: Applying AD Group Request: Step-by-Step Guide
+Subject: Inquiry Regarding Tableau Service Behavior and Best Practices for Instance Management
 
-### Overview
-This document provides detailed instructions for applying an Active Directory (AD) group request through the Okta platform. Follow these steps to manage access to the Active Directory application.
+Dear Peter,
 
-### Steps
-1. **Login to Okta Page:**
-   - Navigate to the Okta login page.
-   - Enter your credentials to log in.
+I hope this email finds you well. I wanted to discuss some recent observations regarding our infrastructure, particularly in the context of managing instances in our lower environments.
 
-2. **Access IT Search:**
-   - Using the search functionality, locate the "Access IT" application.
+While implementing the strategy to keep our instances in a stopped state when not in use, I noticed that the Tableau service automatically starts when the instance is powered on in the morning. I wanted to confirm if this behavior is expected or if it requires further investigation.
 
-3. **Manage My Access:**
-   - Click on the "Manage My Access" option within the Access IT application.
+Furthermore, as part of our efforts to efficiently manage our resources, we are considering using cron jobs to stop and start the Tableau application along with the instance. I would appreciate your insights on the best practices in this scenario and any recommendations you might have to ensure smooth operation and resource optimization.
 
-4. **Modify Active Directory Application:**
-   - In the list of applications, locate "Active Directory" and click on "Modify."
+Looking forward to your guidance on this matter.
 
-5. **Request Page:**
-   - You will be directed to the request page for the Active Directory application.
+Best regards,
 
-6. **Modify Account:**
-   - Click on the "Actions" dropdown menu and select "Modify Account."
-   - Confirm your action by clicking "Yes."
-
-7. **Check Out:**
-   - Click on "Check Out" to proceed.
-
-8. **Item #1 Page:**
-   - You will be directed to the Item #1 page.
-
-9. **Search for Available Groups:**
-   - On the left-hand side, utilize the search bar to find the desired group by name.
-
-10. **Add Group:**
-    - Once the group is visible, click on the "Add" button.
-    - Proceed by clicking "Next."
-
-11. **Provide Business Justification:**
-    - Add a business justification for accessing the group.
-    - Click on "Submit" to proceed with the request.
-
-12. **Approval Process:**
-    - The request will be sent to both the manager and the application owner for approval.
-
-13. **Check Approval Status:**
-    - To track the approval status, navigate to the "Service History" option from the Access IT homepage.
-
-Follow these steps carefully to successfully apply for access to the desired AD group via Okta.
+[Your Name]
