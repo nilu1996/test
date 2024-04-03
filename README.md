@@ -1,22 +1,16 @@
-Hello,
+Hello Peter,
 
-Regarding the integration between Tableau and Okta:
+I'm seeking clarification regarding the integration between Tableau and Okta.
 
-1. **Tableau Dev:** Since step number 3 was not followed, users are able to log in using their email addresses without any issues.
+Firstly, focusing on Tableau Dev:
+We've noticed that we haven't followed step number 3 as outlined in the documentation. Despite this, we're able to log in using email credentials.
 
-2. **Tableau UAT:** After following step number 3 and adding assertion details in Okta, users are unable to log in using their email IDs. This is because the Okta configuration does not support the Email ID attribute as per the documentation.
+Moving on to Tableau UAT:
+Here, we've completed step number 3 as specified. Subsequently, we shared the metadata file with the Okta team, who then added assertion details. However, it came to our attention that users were unable to log in using their email IDs. Our documentation indicates that email ID attributes are not supported.
 
-Regarding your question about whether to remove the configuration from Okta:
+My query is, should we remove the configuration from the Okta side?
+If so, I'd like to understand the potential impact of this action on Okta's configuration and any potential future implications.
 
-Removing the configuration from Okta may resolve the issue of users not being able to log in using their email IDs. However, it's important to consider the impact of this action:
+Looking forward to your guidance on this matter.
 
-- **Immediate Impact:** Users will be able to log in using their email IDs, which may align with the current login behavior in the development environment.
-  
-- **Future Impact:** Removing the configuration may affect any future integrations or authentication mechanisms that rely on the Okta configuration. It's essential to assess whether any other applications or services depend on this configuration and whether there are alternative solutions or workarounds.
-
-Before making any changes, it's recommended to consult with the Okta team to understand the implications and potential impact on other systems or processes. Additionally, testing the changes in a controlled environment can help ensure that the desired outcome is achieved without causing any unforeseen issues.
-
-Let me know if you need further clarification or assistance.
-
-Best regards,  
-[Your Name]
+Best regards, [Your Name]
