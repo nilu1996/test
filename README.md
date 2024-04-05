@@ -1,3 +1,30 @@
-ASI_VERSION=0.2.0
-curl -LO https://github.com/aws-samples/sagemaker-studio-apps-lifecycle-config-examples/releases/download/v$ASI_VERSION/auto-stop-idle-$ASI_VERSION.tar.gz
-tar -xvzf auto-stop-idle-$ASI_VERSION.tar.gz
+#!/bin/bash
+
+# Define path to the tsm command
+TSM_COMMAND="/path/to/tsm"
+
+# Function to start Tableau
+start_tableau() {
+    echo "Starting Tableau..."
+    $TSM_COMMAND start
+}
+
+# Start Tableau
+start_tableau
+
+
+
+#!/bin/bash
+
+# Define path to the tsm command
+TSM_COMMAND="/path/to/tsm"
+
+# Function to stop Tableau
+stop_tableau() {
+    echo "Stopping Tableau..."
+    $TSM_COMMAND stop
+}
+
+# Stop Tableau
+stop_tableau
+
