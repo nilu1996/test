@@ -1,128 +1,68 @@
-The provided JSON policy defines the actions (permissions) allowed for each resource. Here are the actions allowed for the specified resources:
+Based on the provided JSON IAM policy, here are the AWS resources that the role is allowed to access:
 
-1. **Amazon SageMaker**:
-   - All actions (`*`) for SageMaker and SageMaker Geospatial, except for specific resources mentioned in the "NotResource" condition.
+1. Amazon SageMaker:
+   - Domain
+   - User profile
+   - App
+   - Space
+   - Flow definition
 
-2. **Amazon S3**:
-   - GetObject
-   - PutObject
-   - DeleteObject
-   - AbortMultipartUpload
-   - ListBucket
-   - ListAllMyBuckets
-   - GetBucketCors
-   - PutBucketCors
-   - CreateBucket
-   - GetBucketLocation
+2. Amazon S3:
+   - Objects with specific tags related to SageMaker and AWS Glue
+   - Buckets related to SageMaker and AWS Glue
 
-3. **AWS Glue**:
-   - CreateTable
-   - UpdateTable
-   - DeleteTable
-   - GetDatabases
-   - GetDatabase
-   - GetTables
-   - CreateDatabase
-   - DescribeJob
-   - ListJobs
-   - StartJobRun
+3. AWS Glue:
+   - Table
+   - Database
+   - Catalog
 
-4. **Amazon Redshift**:
-   - ExecuteStatement
-   - DescribeStatement
-   - CancelStatement
-   - GetStatementResult
-   - ListSchemas
-   - ListTables
-   - GetClusterCredentials
+4. Amazon Redshift:
+   - Cluster credentials
+   - Database and its users
 
-5. **AWS CloudFormation**:
-   - ListStackResources
+5. AWS CloudFormation:
+   - List stack resources
 
-6. **AWS Lambda**:
-   - InvokeFunction
+6. AWS Lambda:
+   - Functions related to SageMaker and AWS Glue
 
-7. **Amazon SNS**:
-   - Subscribe
-   - CreateTopic
-   - Publish
+7. Amazon SNS:
+   - Topics related to SageMaker
 
-8. **AWS Step Functions**:
-   - DescribeExecution
-   - GetExecutionHistory
-   - StartExecution
-   - StopExecution
-   - UpdateStateMachine
+8. AWS Step Functions:
+   - State machines related to SageMaker
 
-9. **AWS Service Catalog**:
-   - ProvisionProduct
-   - TerminateProvisionedProduct
-   - UpdateProvisionedProduct
+9. AWS Service Catalog:
+   - Provisioned products
 
-10. **Amazon Athena**:
-    - ListDataCatalogs
-    - ListDatabases
-    - ListTableMetadata
-    - GetQueryExecution
-    - GetQueryResults
-    - StartQueryExecution
-    - StopQueryExecution
+10. Amazon Athena:
+    - Data catalogs
+    - Databases
+    - Tables
 
-11. **Amazon ECR**:
-    - SetRepositoryPolicy
-    - CompleteLayerUpload
-    - BatchDeleteImage
-    - UploadLayerPart
-    - DeleteRepositoryPolicy
-    - InitiateLayerUpload
-    - DeleteRepository
-    - PutImage
+11. Amazon ECR:
+    - Repositories with SageMaker in their name
 
-12. **Amazon CodeBuild**:
-    - BatchGetBuilds
-    - StartBuild
+12. Amazon CodeBuild:
+    - Projects related to SageMaker
 
-13. **Amazon Secrets Manager**:
-    - DescribeSecret
-    - GetSecretValue
-    - CreateSecret
+13. Amazon Secrets Manager:
+    - Secrets related to SageMaker
 
-14. **Amazon CloudWatch**:
-    - CreateLogDelivery
-    - CreateLogGroup
-    - CreateLogStream
-    - DeleteLogDelivery
-    - Describe*
-    - GetLogDelivery
-    - GetLogEvents
-    - ListLogDeliveries
-    - PutLogEvents
-    - PutResourcePolicy
-    - UpdateLogDelivery
+14. Amazon CloudWatch:
+    - Log groups related to SageMaker and AWS Glue
 
-15. **AWS IAM**:
-    - PassRole
-    - CreateServiceLinkedRole
+15. AWS IAM:
+    - Roles related to SageMaker
+    - Service linked roles
 
-16. **Amazon RoboMaker**:
-    - CreateSimulationApplication
-    - DescribeSimulationApplication
-    - DeleteSimulationApplication
-    - CreateSimulationJob
-    - DescribeSimulationJob
-    - CancelSimulationJob
+16. Amazon RoboMaker:
+    - Service linked role
 
-17. **Amazon S3 Express**:
-    - CreateSession
-    - CreateBucket
-    - ListAllMyDirectoryBuckets
+17. Amazon S3 Express:
+    - Buckets related to SageMaker and AWS Glue
 
-18. **AWS Redshift Data API**:
-    - ExecuteStatement
-    - DescribeStatement
-    - CancelStatement
-    - GetStatementResult
-    - ListSchemas
-    - ListTables
+18. AWS Redshift Data API:
+    - Execute SQL statements
 
-These actions determine what operations can be performed on the resources specified in the policy.
+These are the resources that the role is allowed to access according to the JSON policy provided.
