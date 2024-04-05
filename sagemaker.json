@@ -1,68 +1,65 @@
-Based on the provided JSON IAM policy, here are the AWS resources that the role is allowed to access:
+Amazon SageMaker:
 
-1. Amazon SageMaker:
-   - Domain
-   - User profile
-   - App
-   - Space
-   - Flow definition
+Domain
+User profile
+App
+Space
+Flow definition
+Amazon S3:
 
-2. Amazon S3:
-   - Objects with specific tags related to SageMaker and AWS Glue
-   - Buckets related to SageMaker and AWS Glue
+Objects with specific tags related to SageMaker and AWS Glue
+Buckets related to SageMaker and AWS Glue
+AWS Glue:
 
-3. AWS Glue:
-   - Table
-   - Database
-   - Catalog
+Table
+Database
+Catalog
+Amazon Redshift:
 
-4. Amazon Redshift:
-   - Cluster credentials
-   - Database and its users
+Cluster credentials
+Database and its users
+AWS CloudFormation:
 
-5. AWS CloudFormation:
-   - List stack resources
+List stack resources
+AWS Lambda:
 
-6. AWS Lambda:
-   - Functions related to SageMaker and AWS Glue
+Functions related to SageMaker and AWS Glue
+Amazon SNS:
 
-7. Amazon SNS:
-   - Topics related to SageMaker
+Topics related to SageMaker
+AWS Step Functions:
 
-8. AWS Step Functions:
-   - State machines related to SageMaker
+State machines related to SageMaker
+AWS Service Catalog:
 
-9. AWS Service Catalog:
-   - Provisioned products
+Provisioned products
+Amazon Athena:
 
-10. Amazon Athena:
-    - Data catalogs
-    - Databases
-    - Tables
+Data catalogs
+Databases
+Tables
+Amazon ECR:
 
-11. Amazon ECR:
-    - Repositories with SageMaker in their name
+Repositories with SageMaker in their name
+Amazon CodeBuild:
 
-12. Amazon CodeBuild:
-    - Projects related to SageMaker
+Projects related to SageMaker
+Amazon Secrets Manager:
 
-13. Amazon Secrets Manager:
-    - Secrets related to SageMaker
+Secrets related to SageMaker
+Amazon CloudWatch:
 
-14. Amazon CloudWatch:
-    - Log groups related to SageMaker and AWS Glue
+Log groups related to SageMaker and AWS Glue
+AWS IAM:
 
-15. AWS IAM:
-    - Roles related to SageMaker
-    - Service linked roles
+Roles related to SageMaker
+Service linked roles
+Amazon RoboMaker:
 
-16. Amazon RoboMaker:
-    - Service linked role
+Service linked role
+Amazon S3 Express:
 
-17. Amazon S3 Express:
-    - Buckets related to SageMaker and AWS Glue
+Buckets related to SageMaker and AWS Glue
+AWS Redshift Data API:
 
-18. AWS Redshift Data API:
-    - Execute SQL statements
-
-These are the resources that the role is allowed to access according to the JSON policy provided.
+Execute SQL statements
