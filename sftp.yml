@@ -2,9 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: some-sftp-server
 
 Parameters:
-  HostedZoneIdParam:
-    Type: String
-    Description: Hosted Zone ID
   SFTPHostnameParam:
     Type: String
     Description: Hostname for the SFTP Server
@@ -16,13 +13,13 @@ Resources:
       EndpointType: PUBLIC
       Tags:
         - Key: Application
-          Value: some-sftp-servver
+          Value: some-sftp-server
 
   SFTPServerDNSRecord:
     Type: AWS::Route53::RecordSet
     Properties:
       Name: !Ref SFTPHostnameParam
-      HostedZoneId: !Ref HostedZoneIdParam
+      HostedZoneName: gbt.gbtad.com.
       Type: CNAME
       Comment: SFTP Transfer custom hostname
       TTL: 300
@@ -41,7 +38,7 @@ Resources:
         RestrictPublicBuckets: true
       Tags:
         - Key: Application
-          Value: some-sftp-servver
+          Value: some-sftp-server
 
   SFTPUserRole:
     Type: AWS::IAM::Role
