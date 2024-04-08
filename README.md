@@ -1,4 +1,3 @@
-0 1 * * * /bin/bash /var/opt/tableaustart.sh >> /var/log/tableaustart.log 2>&1
-
-
-0 3 * * * /bin/bash /var/opt/tableaustart.sh >> /var/log/tableaustart.log 2>&1
+i-04cb2daddb1f38cf8
+i-0e23aa72b63a1a15d
+i-0c91a751903287cd4
