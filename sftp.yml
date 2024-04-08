@@ -60,6 +60,3 @@ Outputs:
   SftpServerEndpoint:
     Description: Endpoint of the created SFTP server.
     Value: !GetAtt SftpServer.Endpoint
-
-
-1 validation error detected: Value '[AWS::Transfer::Server, AWS::EC2::SecurityGroupIngress, AWS::Transfer::Server::User, AWS::EC2::SecurityGroup]' at 'typeNameList' failed to satisfy constraint: Member must satisfy constraint: [Member must have length less than or equal to 204, Member must have length greater than or equal to 10, Member must satisfy regular expression pattern: [A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}
