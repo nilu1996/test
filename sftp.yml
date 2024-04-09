@@ -1,130 +1,56 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: some-sftp-server
+Description: Create an AWS Transfer Family SFTP server with internal endpoint option
 
 Parameters:
-  SFTPHostnameParam:
+  SecurityGroupId:
     Type: String
-    Description: Hostname for the SFTP Server
+    Description: ID of the security group for the SFTP server
+  S3BucketName:
+    Type: String
+    Description: Name of the S3 bucket for storing files
 
 Resources:
   SFTPServer:
     Type: AWS::Transfer::Server
     Properties:
-      EndpointType: PUBLIC
-      Tags:
-        - Key: Application
-          Value: some-sftp-server
+      EndpointType: VPC
+      EndpointDetails:
+        VpcEndpointId: "vpce-1234567890abcdef0" # Replace with your VPC endpoint ID
+      IdentityProviderType: SERVICE_MANAGED
+      LoggingRole: ""
+      SecurityGroups:
+        - !Ref SecurityGroupId
 
-  SFTPServerDNSRecord:
-    Type: AWS::Route53::RecordSet
+  SFTPUser:
+    Type: AWS::Transfer::User
     Properties:
-      Name: !Ref SFTPHostnameParam
-      HostedZoneName: gbt.gbtad.com.
-      Type: CNAME
-      Comment: SFTP Transfer custom hostname
-      TTL: 300
-      ResourceRecords:
-        - !Sub ${SFTPServer.ServerId}.server.transfer.${AWS::Region}.amazonaws.com
+      ServerId: !Ref SFTPServer
+      UserName: testuser
+      HomeDirectory: "/"
+      Role: ""
+      Policy: ""
+      SshPublicKeyBody: ""
 
-  SFTPServerS3Bucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
     Properties:
-      BucketName: some-sftp-bucket
-      PublicAccessBlockConfiguration:
-        BlockPublicAcls: true
-        BlockPublicPolicy: true
-        IgnorePublicAcls: true
-        RestrictPublicBuckets: true
-      Tags:
-        - Key: Application
-          Value: some-sftp-server
-
-  SFTPUserRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
+      Bucket: !Ref S3BucketName
+      PolicyDocument:
         Statement:
           - Effect: Allow
             Principal:
-              Service:
-                - transfer.amazonaws.com
+              Service: transfer.amazonaws.com
+            Action: s3:GetBucketLocation
+            Resource: !Sub arn:aws:s3:::${S3BucketName}
+          - Effect: Allow
+            Principal:
+              Service: transfer.amazonaws.com
+            Action: s3:ListBucket
+            Resource: !Sub arn:aws:s3:::${S3BucketName}
+          - Effect: Allow
+            Principal:
+              Service: transfer.amazonaws.com
             Action:
-              - sts:AssumeRole
-      Path: /
-      Policies:
-        - PolicyName: S3FullAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:ListAllMyBuckets
-                  - s3:GetBucketLocation
-                Resource: "*"
-        - PolicyName: AllowListingOfUserFolder
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:ListBucket
-                Resource: !GetAtt SFTPServerS3Bucket.Arn
-        - PolicyName: HomeDirObjectAccess
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:PutObject
-                  - s3:GetObject
-                  - s3:GetObjectVersion
-                  - s3:DeleteObject
-                  - s3:DeleteObjectVersion
-                Resource: !Sub "${SFTPServerS3Bucket.Arn}/*"
-
-  TestUser:
-    Type: AWS::Transfer::User
-    Properties:
-      ServerId: !GetAtt SFTPServer.ServerId
-      UserName: john
-      HomeDirectory: !Sub "/${SFTPServerS3Bucket}/home/john"
-      Policy: >
-          {
-            "Version": "2012-10-17",
-                    "Statement": [
-                        {
-                            "Sid": "AllowListingOfUserFolder",
-                            "Effect": "Allow",
-                            "Action": "s3:ListBucket",
-                            "Resource": "arn:aws:s3:::${transfer:HomeBucket}",
-                            "Condition": {
-                                "StringLike": {
-                                    "s3:prefix": [
-                                        "home/${transfer:UserName}/*",
-                                        "home/${transfer:UserName}"
-                                    ]
-                                }
-                            }
-                        },
-                        {
-                            "Sid": "HomeDirObjectAccess",
-                            "Effect": "Allow",
-                            "Action": [
-                                "s3:PutObject",
-                                "s3:GetObject",
-                                "s3:GetObjectVersion",
-                                "s3:DeleteObject",
-                                "s3:DeleteObjectVersion"
-                            ],
-                            "Resource": "arn:aws:s3:::${transfer:HomeDirectory}*"
-                        }
-                    ]
-            }
-      Role: !GetAtt SFTPUserRole.Arn
-      SshPublicKeys:
-        - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnGkZ2hpQtnzdioc9sb/iI7lGkR5FV5NMuzZnTiKfEtpCaFWjo2iF6aiNfx+Kg0vWDZFCOYATGBOxmS9J4F/ehxwUpjxGR+qKyd4wCxxZV0mbGqTEZp7IEsF6yxFty+wths0jaOnZbmCeNg+ujgkFmpsvbPxNWIRQ4srT/puDRo3osh0A5PvNJdP3Q1gKQhGqACnhnDSiTsLQW0TSOYElcidH/3MGgzkeNqtBy9CZ9tEBMajhmJpnq58YYCHvQnJMfkd6BhzcuXPtIKwQL/mqpA/uMFd5ib5eSqKzWwr1CAuOSuexMnE6HgUlP9Y0UPyt+lUkXeh2KtdSiLHQZS3IzTUdsIkjghTKWBvRTyv3cYVxbrzSo1AL3m0ga0+O5TPJR6yvxq8GpyChyWNRwDbrR1CmbgbrUfssSU+5psp0esUVQhCrgR3JgdH5ZvmDJMoNbl1a7RyIUoTXXmTLACizqkNppBG2HVEhumLFhxKUgrDNur1XFv6xlE519DtRzR30= gbt\ntonda@AMEXGBT-tKwbH7Y
-      Tags:
-        - Key: Application
-          Value: some-sftp-server
+              - s3:GetObject
+              - s3:PutObject
+            Resource: !Sub arn:aws:s3:::${S3BucketName}/*
