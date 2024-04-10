@@ -12,19 +12,17 @@ def lambda_handler(event, context):
         app_name = app['AppName']
         app_type = app['AppType']
         app_domain = app['DomainId']
-        app_spacename = app['SpaceName']
         print(app_name)
         activity_status = sagemaker_client.describe_app(
             AppName=app_name,
             AppType=app_type,
-            DomainId=app_domain,
-            SpaceName=app_spacename
+            DomainId=app_domain
         )
         print(activity_status)
-        if activity_status == 'Stopped':
+        if activity_status['App']['Status'] == 'Stopped':
             print(f'Studio Lab instance "{app_name}" is already stopped.')
         else:
-            last_activity_timestamp = sagemaker_client.describe_app(AppName=app_name)['App']['LastHealthCheckTimestamp']
+            last_activity_timestamp = activity_status['App']['LastHealthCheckTimestamp']
             current_time = int(time.time())
             idle_time = current_time - last_activity_timestamp
             if idle_time >= IDLE_THRESHOLD_SECONDS:
@@ -33,18 +31,3 @@ def lambda_handler(event, context):
             else:
                 print(f'Studio Lab instance "{app_name}" is active, not yet past the idle threshold.')
     return {'statusCode': 200, 'body': 'Success'}
-
-
-
-Getting below error now 
-
-test
-
-Response
-{
-  "errorMessage": "'SpaceName'",
-  "errorType": "KeyError",
-  "stackTrace": [
-    "  File \"/var/task/index.py\", line 15, in lambda_handler\n    app_spacename = app['SpaceName']\n"
-  ]
-}
