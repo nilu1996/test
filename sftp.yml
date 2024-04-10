@@ -1,3 +1,8 @@
+The error indicates that the Lambda function definition lacks a runtime specification. In AWS CloudFormation, when you provide the function's code inline (using `ZipFile`), you also need to explicitly specify the runtime.
+
+Let's add the `Runtime` property to the Lambda function definition. The Python runtime is typically used for Python Lambda functions. Here's the updated CloudFormation template:
+
+```yaml
 AWSTemplateFormatVersion: '2010-09-09'
 Description: CloudFormation template for monitoring and stopping SageMaker Studio Lab instances within a specific domain
 
@@ -6,6 +11,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Handler: lambda_function.lambda_handler
+      Runtime: python3.8  # Added runtime specification
       Role: !GetAtt StudioLabIdleMonitorRole.Arn
       Code:
         ZipFile: |
@@ -63,3 +69,6 @@ Outputs:
   LambdaFunctionArn:
     Description: ARN of the Lambda function for monitoring Studio Lab instances
     Value: !GetAtt StudioLabIdleMonitorFunction.Arn
+```
+
+Now, with the `Runtime: python3.8` added, the CloudFormation template should deploy without any issues.
