@@ -13,10 +13,15 @@ def lambda_handler(event, context):
         app_type = app['AppType']
         app_domain = app['DomainId']
         print(app_name)
+        
+        # Check if 'SpaceName' key exists in app dictionary
+        app_spacename = app.get('SpaceName')
+        
         activity_status = sagemaker_client.describe_app(
             AppName=app_name,
             AppType=app_type,
-            DomainId=app_domain
+            DomainId=app_domain,
+            SpaceName=app_spacename
         )
         print(activity_status)
         if activity_status == 'Stopped':
