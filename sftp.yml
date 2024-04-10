@@ -1,56 +1,65 @@
 AWSTemplateFormatVersion: '2010-09-09'
-Description: Create an AWS Transfer Family SFTP server with internal endpoint option
-
-Parameters:
-  SecurityGroupId:
-    Type: String
-    Description: ID of the security group for the SFTP server
-  S3BucketName:
-    Type: String
-    Description: Name of the S3 bucket for storing files
+Description: CloudFormation template for monitoring and stopping SageMaker Studio Lab instances within a specific domain
 
 Resources:
-  SFTPServer:
-    Type: AWS::Transfer::Server
+  StudioLabIdleMonitorFunction:
+    Type: AWS::Lambda::Function
     Properties:
-      EndpointType: VPC
-      EndpointDetails:
-        VpcEndpointId: "vpce-1234567890abcdef0" # Replace with your VPC endpoint ID
-      IdentityProviderType: SERVICE_MANAGED
-      LoggingRole: ""
-      SecurityGroups:
-        - !Ref SecurityGroupId
+      Handler: lambda_function.lambda_handler
+      Role: !GetAtt StudioLabIdleMonitorRole.Arn
+      Code:
+        ZipFile: |
+          import boto3
+          import time
 
-  SFTPUser:
-    Type: AWS::Transfer::User
-    Properties:
-      ServerId: !Ref SFTPServer
-      UserName: testuser
-      HomeDirectory: "/"
-      Role: ""
-      Policy: ""
-      SshPublicKeyBody: ""
+          sagemaker_client = boto3.client('sagemaker')
 
-  S3BucketPolicy:
-    Type: AWS::S3::BucketPolicy
+          IDLE_THRESHOLD_SECONDS = 300  # 5 minutes
+
+          def lambda_handler(event, context):
+              response = sagemaker_client.list_apps()
+              for app in response['Apps']:
+                  app_name = app['AppName']
+                  activity_status = sagemaker_client.describe_app(AppName=app_name)['App']['Status']
+                  if activity_status == 'Stopped':
+                      print(f'Studio Lab instance "{app_name}" is already stopped.')
+                  else:
+                      last_activity_timestamp = sagemaker_client.describe_app(AppName=app_name)['App']['LastHealthCheckTimestamp']
+                      current_time = int(time.time())
+                      idle_time = current_time - last_activity_timestamp
+                      if idle_time >= IDLE_THRESHOLD_SECONDS:
+                          sagemaker_client.stop_app(AppName=app_name)
+                          print(f'Stopped Studio Lab instance "{app_name}" due to inactivity.')
+                      else:
+                          print(f'Studio Lab instance "{app_name}" is active, not yet past the idle threshold.')
+              return {'statusCode': 200, 'body': 'Success'}
+
+  StudioLabIdleMonitorRole:
+    Type: AWS::IAM::Role
     Properties:
-      Bucket: !Ref S3BucketName
-      PolicyDocument:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
         Statement:
           - Effect: Allow
             Principal:
-              Service: transfer.amazonaws.com
-            Action: s3:GetBucketLocation
-            Resource: !Sub arn:aws:s3:::${S3BucketName}
-          - Effect: Allow
-            Principal:
-              Service: transfer.amazonaws.com
-            Action: s3:ListBucket
-            Resource: !Sub arn:aws:s3:::${S3BucketName}
-          - Effect: Allow
-            Principal:
-              Service: transfer.amazonaws.com
-            Action:
-              - s3:GetObject
-              - s3:PutObject
-            Resource: !Sub arn:aws:s3:::${S3BucketName}/*
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: StudioLabIdleMonitorPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sagemaker:ListApps
+                  - sagemaker:DescribeApp
+                  - sagemaker:StopApp
+                Resource: '*'
+                Condition:
+                  StringEquals:
+                    sagemaker:DomainId: 'd-12345'
+
+Outputs:
+  LambdaFunctionArn:
+    Description: ARN of the Lambda function for monitoring Studio Lab instances
+    Value: !GetAtt StudioLabIdleMonitorFunction.Arn
