@@ -1,6 +1,5 @@
 import boto3
 import time
-from datetime import datetime
 
 sagemaker_client = boto3.client('sagemaker')
 
