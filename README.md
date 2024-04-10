@@ -1,16 +1,1 @@
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "AWS": "arn:aws:iam::<YOUR_ACCOUNT_ID>:group/mlopssagemakeruser"
-            },
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::s3awssagemaker",
-                "arn:aws:s3:::s3awssagemaker/*"
-            ]
-        }
-    ]
-}
+Resource handler returned message: "Invalid request provided: Using the ZipFile attribute requires a runtime to be specified" (RequestToken: f7929b10-258b-d5cb-a28f-82ada5dc4999, HandlerErrorCode: InvalidRequest)
