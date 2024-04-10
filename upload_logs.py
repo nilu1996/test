@@ -1,18 +1,50 @@
 import boto3
+import time
 
-def start_ec2_instances(event, context):
-    # Define your EC2 region
-    ec2_region = 'us-east-1'
+sagemaker_client = boto3.client('sagemaker')
 
-    # Initialize the EC2 client
-    ec2_client = boto3.client('ec2', region_name=ec2_region)
+IDLE_THRESHOLD_SECONDS = 300  # 5 minutes
 
-    # List of instance IDs to start
-    instance_ids = ['i-04cb2daddb1f38cf8', 'i-0e23aa72b63a1a15d', 'i-0c91a751903287cd4']
+def lambda_handler(event, context):  
+    response = sagemaker_client.list_apps()
+    print(response)
+    for app in response['Apps']:
+        app_name = app['AppName']
+        app_type = app['AppType']
+        app_domain = app['DomainId']
+        app_spacename = app['SpaceName']
+        print(app_name)
+        activity_status = sagemaker_client.describe_app(
+            AppName=app_name,
+            AppType=app_type,
+            DomainId=app_domain,
+            SpaceName=app_spacename
+        )
+        print(activity_status)
+        if activity_status == 'Stopped':
+            print(f'Studio Lab instance "{app_name}" is already stopped.')
+        else:
+            last_activity_timestamp = sagemaker_client.describe_app(AppName=app_name)['App']['LastHealthCheckTimestamp']
+            current_time = int(time.time())
+            idle_time = current_time - last_activity_timestamp
+            if idle_time >= IDLE_THRESHOLD_SECONDS:
+                sagemaker_client.stop_app(AppName=app_name)
+                print(f'Stopped Studio Lab instance "{app_name}" due to inactivity.')
+            else:
+                print(f'Studio Lab instance "{app_name}" is active, not yet past the idle threshold.')
+    return {'statusCode': 200, 'body': 'Success'}
 
-    # Start each instance
-    for instance_id in instance_ids:
-        ec2_client.start_instances(InstanceIds=[instance_id])
-        print(f"Started EC2 instance: {instance_id}")
 
-    print("All specified EC2 instances have been started.")
+
+Getting below error now 
+
+test
+
+Response
+{
+  "errorMessage": "'SpaceName'",
+  "errorType": "KeyError",
+  "stackTrace": [
+    "  File \"/var/task/index.py\", line 15, in lambda_handler\n    app_spacename = app['SpaceName']\n"
+  ]
+}
