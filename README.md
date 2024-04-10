@@ -1,1 +1,5 @@
-Resource handler returned message: "Invalid request provided: Using the ZipFile attribute requires a runtime to be specified" (RequestToken: f7929b10-258b-d5cb-a28f-82ada5dc4999, HandlerErrorCode: InvalidRequest)
+{
+  "errorMessage": "Unable to import module 'lambda_function': No module named 'lambda_function'",
+  "errorType": "Runtime.ImportModuleError",
+  "stackTrace": []
+}
