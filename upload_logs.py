@@ -1,45 +1,10 @@
-import boto3
-import time
-
-sagemaker_client = boto3.client('sagemaker')
-
-IDLE_THRESHOLD_SECONDS = 300  # 5 minutes
-
-def lambda_handler(event, context):
-    response = sagemaker_client.list_apps()
-    print(response)
-    for app in response['Apps']:
-        app_name = app['AppName']
-        app_type = app['AppType']
-        app_domain = app['DomainId']
-        print(app_name)
-        
-        # Determine which attribute to use based on application type
-        if app_type == 'JupyterLab':
-            app_attribute = app['SpaceName']
-        elif app_type == 'JupyterServer':
-            app_attribute = app['UserProfileName']
-        else:
-            print(f"Unsupported application type: {app_type}")
-            continue
-        
-        activity_status = sagemaker_client.describe_app(
-            AppName=app_name,
-            AppType=app_type,
-            DomainId=app_domain,
-            SpaceName=app_attribute  # Use the determined attribute
-        )
-        print(activity_status)
-        if activity_status['Status'] == 'InService':
-            last_activity_timestamp = activity_status['LastHealthCheckTimestamp']
-            current_time = int(time.time())
-            last_activity_timestamp_unix = int(last_activity_timestamp.timestamp())  # Convert to Unix timestamp
-            running_time = current_time - last_activity_timestamp_unix  # Calculate running time
-            if running_time >= IDLE_THRESHOLD_SECONDS:
-                sagemaker_client.stop_app(AppName=app_name)
-                print(f'Stopped Studio Lab instance "{app_name}" due to running for more than 5 minutes.')
-            else:
-                print(f'Studio Lab instance "{app_name}" is still running, not yet past the 5-minute threshold.')
-        else:
-            print(f'Studio Lab instance "{app_name}" is not in service.')
-    return {'statusCode': 200, 'body': 'Success'}
+START RequestId: e57e155e-e178-4208-a770-0780ee600468 Version: $LATEST
+{'Apps': [{'DomainId': 'd-ushbqegfkcgl', 'SpaceName': 'jupytertest', 'AppType': 'JupyterLab', 'AppName': 'default', 'Status': 'InService', 'CreationTime': datetime.datetime(2024, 4, 10, 7, 8, 57, 58000, tzinfo=tzlocal()), 'ResourceSpec': {'SageMakerImageArn': 'arn:aws:sagemaker:us-east-1:885854791233:image/sagemaker-distribution-cpu', 'SageMakerImageVersionAlias': '1.6.0', 'InstanceType': 'ml.t3.medium'}}, {'DomainId': 'd-jxc4qqbqwy0a', 'UserProfileName': 'default-1687560300049', 'AppType': 'JupyterServer', 'AppName': 'default', 'Status': 'InService', 'CreationTime': datetime.datetime(2023, 8, 25, 14, 58, 24, 594000, tzinfo=tzlocal()), 'ResourceSpec': {'SageMakerImageArn': 'arn:aws:ecr:us-east-1:081325390199:repository/looseleaf-jupyter-server-3', 'InstanceType': 'system'}}], 'ResponseMetadata': {'RequestId': '75809350-233b-43f5-84fd-14a5b84a6969', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '75809350-233b-43f5-84fd-14a5b84a6969', 'content-type': 'application/x-amz-json-1.1', 'content-length': '834', 'date': 'Wed, 10 Apr 2024 08:37:24 GMT'}, 'RetryAttempts': 0}}
+default
+{'AppArn': 'arn:aws:sagemaker:us-east-1:787098058239:app/d-ushbqegfkcgl/jupytertest/jupyterlab/default', 'AppType': 'JupyterLab', 'AppName': 'default', 'DomainId': 'd-ushbqegfkcgl', 'SpaceName': 'jupytertest', 'Status': 'InService', 'LastHealthCheckTimestamp': datetime.datetime(2024, 4, 10, 8, 37, 2, 963000, tzinfo=tzlocal()), 'LastUserActivityTimestamp': datetime.datetime(2024, 4, 10, 8, 37, 2, 963000, tzinfo=tzlocal()), 'CreationTime': datetime.datetime(2024, 4, 10, 7, 8, 57, 58000, tzinfo=tzlocal()), 'ResourceSpec': {'SageMakerImageArn': 'arn:aws:sagemaker:us-east-1:885854791233:image/sagemaker-distribution-cpu', 'SageMakerImageVersionAlias': '1.6.0', 'InstanceType': 'ml.t3.medium'}, 'ResponseMetadata': {'RequestId': '15249b5f-9f42-4317-8128-338fbdbb0726', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': '15249b5f-9f42-4317-8128-338fbdbb0726', 'content-type': 'application/x-amz-json-1.1', 'content-length': '645', 'date': 'Wed, 10 Apr 2024 08:37:24 GMT'}, 'RetryAttempts': 0}}
+Studio Lab instance "default" is still running, not yet past the  threshold.
+default
+{'AppArn': 'arn:aws:sagemaker:us-east-1:787098058239:app/d-jxc4qqbqwy0a/default-1687560300049/jupyterserver/default', 'AppType': 'JupyterServer', 'AppName': 'default', 'DomainId': 'd-jxc4qqbqwy0a', 'UserProfileName': 'default-1687560300049', 'Status': 'InService', 'LastHealthCheckTimestamp': datetime.datetime(2024, 4, 10, 8, 36, 50, 514000, tzinfo=tzlocal()), 'LastUserActivityTimestamp': datetime.datetime(2024, 4, 10, 8, 36, 50, 514000, tzinfo=tzlocal()), 'CreationTime': datetime.datetime(2023, 8, 25, 14, 58, 24, 594000, tzinfo=tzlocal()), 'ResourceSpec': {'SageMakerImageArn': 'arn:aws:ecr:us-east-1:081325390199:repository/looseleaf-jupyter-server-3', 'InstanceType': 'system'}, 'ResponseMetadata': {'RequestId': 'dc3aa14d-edf7-48df-a339-dac8d6a921f6', 'HTTPStatusCode': 200, 'HTTPHeaders': {'x-amzn-requestid': 'dc3aa14d-edf7-48df-a339-dac8d6a921f6', 'content-type': 'application/x-amz-json-1.1', 'content-length': '633', 'date': 'Wed, 10 Apr 2024 08:37:24 GMT'}, 'RetryAttempts': 0}}
+Studio Lab instance "default" is still running, not yet past the  threshold.
+END RequestId: e57e155e-e178-4208-a770-0780ee600468
+REPORT RequestId: e57e155e-e178-4208-a770-0780ee600468	Duration: 301.94 ms	Billed Duration: 302 ms	Memory Size: 128 MB	Max Memory Used: 81 MB
