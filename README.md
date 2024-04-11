@@ -1,5 +1,1 @@
-{
-  "errorMessage": "Unable to import module 'lambda_function': No module named 'lambda_function'",
-  "errorType": "Runtime.ImportModuleError",
-  "stackTrace": []
-}
+HTTPSConnectionPool(host='api.domo.com', port=443): Max retries exceeded with url: /oauth/token?grant_type=client_credentials (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self signed certificate in certificate chain (_ssl.c:1131)')))
