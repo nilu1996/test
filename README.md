@@ -1,1 +1,1 @@
-This is architecture we are planning to implement. We are in first phase now. If you have any more inputs by looking to the diagram for next setup
+This is the architecture we are currently planning to implement. We are currently in the first phase of implementation. If you have any further insights or suggestions based on the diagram for the next setup, it would greatly aid us in our implementation efforts.
