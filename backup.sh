@@ -1,6 +1,3 @@
-#!/bin/bash
-
-# Define paths
 BACKUP_DIR="/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
 S3_BUCKET="s3://gbt-uattableau/backup/"
 SNS_ARN="arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
@@ -16,7 +13,7 @@ find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +2 -exec rm {} \;
 latest_backup=$(ls -t "$BACKUP_DIR" | head -1)
 if [ -n "$latest_backup" ]; then
     aws s3 cp "${BACKUP_DIR}${latest_backup}" "$S3_BUCKET" --no-verify-ssl
-    
+
     # Send success notification
     aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup completed successfully." --no-verify-ssl
 else
