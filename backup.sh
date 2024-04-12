@@ -1,3 +1,8 @@
+Script is looking for tsm when running from cron tab and its getting failed due to that
+TSM loccation: /opt/tableau/tableau_server/packages/customer-bin.20233.23.1017.0948/tsm
+
+Keep script same change tsm backup command setting
+
 BACKUP_DIR="/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
 S3_BUCKET="s3://gbt-uattableau/backup/"
 SNS_ARN="arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
