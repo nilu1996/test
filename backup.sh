@@ -1,25 +1,34 @@
 #!/bin/bash
 
-BACKUP_DIR="/var/opt/tableau/tableau_server/data/tabsvc/files/backups/"
-S3_BUCKET="s3://gbt-uattableau/backup/"
-SNS_ARN="arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
-EMAIL_SUBJECT="Tableau Server Backup Notification"
-TSM_LOCATION="/opt/tableau/tableau_server/packages/customer-bin.20233.23.1017.0948/tsm"
+set -e
 
-# Run Tableau backup command
-"$TSM_LOCATION" maintenance backup -f backup.tsbak -d
+# on-create.sh script
 
-# Remove backup files older than 2 days
-find "$BACKUP_DIR" -maxdepth 1 -type f -name "*.tsbak" -mtime +2 -exec rm {} \;
+unset SUDO_UID
+# Install a separate conda installation via Miniconda
+WORKING_DIR=~/SageMaker/custom-miniconda
+S3_BUCKET="your-s3-bucket-name"
+S3_KEY="path/to/miniconda.sh"
 
-# Move latest backup file to S3 bucket
-latest_backup=$(ls -t "$BACKUP_DIR" | head -1)
-if [ -n "$latest_backup" ]; then
-    aws s3 cp "${BACKUP_DIR}${latest_backup}" "$S3_BUCKET" --no-verify-ssl
+# Comment the following lines if you have already run this script before
+mkdir -p "$WORKING_DIR"
+wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O "$WORKING_DIR/miniconda.sh"
 
-    # Send success notification
-    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup completed successfully." --no-verify-ssl
-else
-    # Send failure notification if no backup files are found
-    aws sns publish --topic-arn "$SNS_ARN" --subject "$EMAIL_SUBJECT" --message "Tableau UAT Server backup failed. No backup files found in $BACKUP_DIR" --no-verify-ssl
-fi
+# Upload Miniconda installer file to S3
+aws s3 cp "$WORKING_DIR/miniconda.sh" "s3://$S3_BUCKET/$S3_KEY"
+
+# Remove the Miniconda installer file from local directory
+rm -rf "$WORKING_DIR/miniconda.sh"
+
+# Create a custom conda environment
+source "$WORKING_DIR/miniconda/bin/activate"
+conda config --add envs_dirs $WORKING_DIR/miniconda/envs
+KERNEL_NAME="env-test"
+PYTHON="3.8"
+conda create --yes --name "$KERNEL_NAME" python="$PYTHON"
+conda activate "$KERNEL_NAME"
+pip install --quiet ipykernel
+
+# Customize these lines as necessary to install the required packages
+# conda install --yes numpy
+# pip install --quiet boto3
