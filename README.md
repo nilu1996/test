@@ -34,3 +34,26 @@ Your collaboration and expertise are greatly appreciated as we work towards reso
 
 Best Regards,
 [Your Name]
+
+
+
+
+
+Subject: Leave Request for PTO
+
+Hi 
+
+I hope this message finds you well.
+
+I'm reaching out to inform you in advance about my planned leave dates for upcoming events. I will be on leave on the following dates:
+
+1st May 2024 - Labor Day (Indian Holiday)
+8th May to 10th May 2024 - PTO for my sister's engagement and marriage
+13th May 2024 - General Election (Holiday for all employees of IntraEdge India)
+
+During my absence, I will be reachable by phone in case of any emergencies.
+
+Thank you for your understanding and support.
+
+Thanks,
+Nilesh
