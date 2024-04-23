@@ -1,39 +1,51 @@
-Create a Custom systemd Service
-Create Unit File: Create a unit file named myservice.service in the directory /lib/systemd/system/ with the following content:
-     
- [Unit]
-Description=Extension Name Service
-After=network.target
-[Service]
-User=root
-WorkingDirectory=/usr/local/bin
-ExecStart=/usr/local/bin/super-tables-linux --port 443 --cert yourdomain.crt --key yourdomain.key
-Restart=on-abort
-[Install]
-WantedBy=multi-user.target
+Here's a template for a Confluence page based on the details you provided:
 
+---
 
-Copy and Set Permissions
-2.	Copy Unit File: Copy the unit file to /etc/systemd/system/:
-sudo cp /lib/systemd/system/myservice.service /etc/systemd/system/myservice.service 
-3.	Set Permissions: Set appropriate permissions for the unit file:
-sudo chmod 644 /etc/systemd/system/myservice.service 
-Start and Enable the Service
-4.	Start the Service: Start the service using systemctl:
-sudo systemctl start myservice 
-5.	Check Service Status: Check the status of the service to ensure it's running:
-sudo systemctl status myservice 
-If everything is set up correctly, you should see output indicating that the service is active and running.
-Stop or Restart the Service
-6.	Stop or Restart Service: You can stop or restart the service using systemctl:
-sudo systemctl stop myservice sudo systemctl restart myservice 
-Enable Service at Boot
-7.	Enable Service: To ensure the service starts automatically on boot, enable it:
-sudo systemctl enable myservice 
-This creates a symlink to the unit file in the appropriate target.
-Reboot and Verify
-8.	Reboot: Reboot your system, either through the Linode Manager or using the appropriate command for your system.
-9.	Check Service Status After Reboot: After rebooting, verify that the service started correctly:
-sudo systemctl status myservice 
-You should see output indicating that the service is active and running after the system boots up.
+# Setting Up BACE Microservice on Apache Tomcat
 
+## Introduction
+This guide outlines the steps to set up the BACE Microservice on Apache Tomcat.
+
+## Steps
+
+### 1. Check Tomcat Installation Directory
+After installing Apache Tomcat, navigate to the installation directory:
+```
+/opt/tomcat/
+```
+
+### 2. Verify Directory Contents
+Confirm the presence of multiple directories inside `/opt/tomcat/`.
+
+### 3. Validate Files
+Ensure that the necessary files are present in the directories. If not, download them from the official Apache website.
+
+### 4. Deploy BACE Microservice
+Navigate to the `webapps` folder and deploy the `BACE-Microservice.war` file.
+
+### 5. Change Ownership
+Change the ownership of the directories inside `/opt/tomcat` from root user to tomcat user:
+```
+sudo chown -R tomcat:tomcat /opt/tomcat
+```
+
+### 6. Update Application Properties
+Edit the `application.properties` file located at:
+```
+/opt/tomcat/webapps/BACE-Microservice/WEB-INF/classes
+```
+Update the details as per the provided file.
+
+### 7. Restart Tomcat
+Restart the Apache Tomcat service:
+```
+sudo systemctl restart tomcat
+```
+
+### 8. Verify Deployment
+Access the website by navigating to `<ip_address>:9090` in your web browser. The website should now be up and running.
+
+---
+
+You can copy and paste this template into a new Confluence page and fill in any specific details or instructions as needed.
