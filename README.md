@@ -1,38 +1,42 @@
-Here's a draft for your Confluence page based on the provided details:
+**KMS Key Rotation Activity Plan**
 
----
+1. **Activity Date:** [Insert Activity Date]
 
-# Configuring and Restoring the Database Backup
+2. **SNAP Ticket Request:**
+   - Raise SNAP ticket for KMS key rotation activity.
 
-## Introduction
-This guide outlines the steps to configure and restore a database backup file for the BACE application.
+3. **Check Application Impact from Vendor Team:**
+   - Coordinate with the Vendor team to assess the impact of KMS key rotation on the application.
 
-## Steps
+4. **Team Involvement:**
+   - **Biplatform Team**
+     - Responsible for coordinating the activity.
+   - **CloudOps Team**
+     - Conduct the KMS key rotation activity.
+   - **Backup Team**
+     - Initiate backup procedures before and after the activity.
 
-### 1. Set Default Database Password
-Set the default password for the database as mentioned in the provided file.
+5. **Team Responsibilities:**
+   - **CloudOps Team:**
+     - Perform KMS key rotation activity following best practices.
+   - **Backup Team:**
+     - Take application backup before the activity.
+     - Create a snapshot of the instance before the activity, retaining it for more than 15 days.
+   - **Biplatform Team:**
+     - Conduct application testing before and after the activity to ensure proper functionality.
 
-### 2. Obtain Application Database Backup
-Request the application team to share the backup file for the application database.
+6. **Downtime:**
+   - **DEV:** 1 hour downtime expected.
+   - **UAT:** 1 hour downtime expected.
+   - **Prod:** 3 hours downtime expected.
 
-### 3. Login to Database
-Use appropriate credentials to log in to the database management system.
+7. **Backup Plan:**
+   - Take application backup before initiating the activity to ensure data integrity.
+   - Coordinate with the Backup team to take a snapshot of the instance before the activity to minimize data loss.
 
-### 4. Create Database
-Create a new database named `BACE_POC` using the following SQL command:
-```sql
-CREATE DATABASE BACE_POC;
-```
+[Include any additional details or considerations specific to your environment or requirements.]
 
-### 5. Restore Backup
-Run the appropriate command to restore the backup file to the newly created `BACE_POC` database. 
-Please replace `<backup_file>` with the path to the backup file provided by the application team.
-```
-<command_to_restore_backup> <backup_file> BACE_POC
-```
+By following this activity plan, we aim to ensure a smooth and secure rotation of KMS keys with minimal impact on the application and services. Please review and coordinate accordingly.
 
-Ensure that you have the necessary permissions to execute the command and that the backup file path is correctly specified.
-
----
-
-You can fill in the specific command to restore the backup file and any additional details or instructions as needed. Once completed, you can copy and paste this draft into a new Confluence page.
+[Your Name]  
+[Your Contact Information]
