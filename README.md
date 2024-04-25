@@ -40,3 +40,17 @@ By following this activity plan, we aim to ensure a smooth and secure rotation o
 
 [Your Name]  
 [Your Contact Information]
+
+
+
+
+Subject: Sick Leave
+
+Hello,
+
+I wanted to inform you that I've been feeling unwell since last night and need to go to the hospital, so I won't be able to log in for work today. I believe it's best for me to take a sick leave to rest and recover fully.
+
+Thank you for your understanding.
+
+thanks 
+Nilesh
