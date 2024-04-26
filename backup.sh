@@ -1,34 +1,56 @@
 #!/bin/bash
+set -eux
+ASI_VERSION=0.2.0
 
-set -e
+# OVERVIEW
+# This script stops a SageMaker Studio JupyterLab app, once it's idle for more than X seconds, based on IDLE_TIME_IN_SECONDS configuration.
+# Note that this script will fail if either condition is not met:
+# 1. The JupyterLab app has internet connectivity to fetch the autostop idle Python package
+# 2. The Studio Domain or User Profile execution role has permissions to SageMaker:DeleteApp to delete the JupyterLab app
 
-# on-create.sh script
+# User variables [update as needed]
+IDLE_TIME_IN_SECONDS=120 # The max time (in seconds) the JupyterLab app can stay idle before being terminated.
 
-unset SUDO_UID
-# Install a separate conda installation via Miniconda
-WORKING_DIR=~/SageMaker/custom-miniconda
-S3_BUCKET="your-s3-bucket-name"
-S3_KEY="path/to/miniconda.sh"
+# User variables - advanced [update only if needed]
+IGNORE_CONNECTIONS=True # Set to False if you want to consider idle JL sessions with active connections as not idle.
+SKIP_TERMINALS=False # Set to True if you want to skip any idleness check on Jupyter terminals.
 
-# Comment the following lines if you have already run this script before
-mkdir -p "$WORKING_DIR"
-wget --no-check-certificate https://repo.anaconda.com/miniconda/Miniconda3-4.6.14-Linux-x86_64.sh -O "$WORKING_DIR/miniconda.sh"
+# System variables [do not change if not needed]
+JL_HOSTNAME=0.0.0.0
+JL_PORT=8888
+JL_BASE_URL=/jupyterlab/default/
+CONDA_HOME=/opt/conda/bin
+LOG_FILE=/var/log/apps/app_container.log # Writing to app_container.log delivers logs to CW logs.
+SOLUTION_DIR=/var/tmp/auto-stop-idle # Do not use /home/sagemaker-user
+STATE_FILE=$SOLUTION_DIR/auto_stop_idle.st
+PYTHON_PACKAGE=sagemaker_studio_jlab_auto_stop_idle-$ASI_VERSION.tar.gz
+PYTHON_SCRIPT_PATH=$SOLUTION_DIR/sagemaker_studio_jlab_auto_stop_idle/auto_stop_idle.py
 
-# Upload Miniconda installer file to S3
-aws s3 cp "$WORKING_DIR/miniconda.sh" "s3://$S3_BUCKET/$S3_KEY"
+# Fixing invoke-rc.d: policy-rc.d denied execution of restart.
+sudo /bin/bash -c "echo '#!/bin/sh
+exit 0' > /usr/sbin/policy-rc.d"
 
-# Remove the Miniconda installer file from local directory
-rm -rf "$WORKING_DIR/miniconda.sh"
+echo "Confirming cron..."
+if ! sudo service cron status >/dev/null 2>&1; then
+sudo service cron start
+fi
 
-# Create a custom conda environment
-source "$WORKING_DIR/miniconda/bin/activate"
-conda config --add envs_dirs $WORKING_DIR/miniconda/envs
-KERNEL_NAME="env-test"
-PYTHON="3.8"
-conda create --yes --name "$KERNEL_NAME" python="$PYTHON"
-conda activate "$KERNEL_NAME"
-pip install --quiet ipykernel
+# Creating solution directory.
+sudo mkdir -p $SOLUTION_DIR
 
-# Customize these lines as necessary to install the required packages
-# conda install --yes numpy
-# pip install --quiet boto3
+# Downloading autostop idle Python package.
+echo "Downloading autostop idle Python package from S3..."
+
+aws s3 cp s3://sagemaker-us-east-1-090124397890/python-packages/$PYTHON_PACKAGE /var/tmp/
+sudo ls -lah /var/tmp
+sudo $CONDA_HOME/pip install -U -t $SOLUTION_DIR /var/tmp/$PYTHON_PACKAGE
+
+
+# Setting container credential URI variable to /etc/environment to make it available to cron
+sudo /bin/bash -c "echo 'AWS_CONTAINER_CREDENTIALS_RELATIVE_URI=$AWS_CONTAINER_CREDENTIALS_RELATIVE_URI' >> /etc/environment"
+
+# Add script to crontab for root.
+echo "Adding autostop idle Python script to crontab..."
+echo "*/2 * * * * /bin/bash -ic '$CONDA_HOME/python $PYTHON_SCRIPT_PATH --idle-time $IDLE_TIME_IN_SECONDS --hostname $JL_HOSTNAME \
+--port $JL_PORT --base-url $JL_BASE_URL --ignore-connections $IGNORE_CONNECTIONS \
+--skip-terminals $SKIP_TERMINALS --state-file-path $STATE_FILE >> $LOG_FILE'" | sudo crontab -
