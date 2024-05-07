@@ -38,18 +38,18 @@ def upload_to_s3(zip_file_path, bucket_name, s3_base_path, local_path):
         print("Credentials not available.")
         return False
 
-def collect_logs_older_than_seven_days(logs_dir):
+def collect_logs_older_than_two_days(logs_dir):
     """
-    Collects log files older than seven days from the specified directory.
+    Collects log files older than two days from the specified directory.
     """
     logs = []
-    seven_days_ago = datetime.now() - timedelta(days=7)
+    two_days_ago = datetime.now() - timedelta(days=2)
     for file_name in os.listdir(logs_dir):
         file_path = os.path.join(logs_dir, file_name)
         # Check if the current item is a file and not a directory
         if os.path.isfile(file_path):
             modified_time = datetime.fromtimestamp(os.path.getmtime(file_path))
-            if modified_time < seven_days_ago:
+            if modified_time < two_days_ago:
                 logs.append(file_name)
     return logs
 
@@ -62,18 +62,22 @@ s3_bucket_name = "gbt-uattableau"
 # Specify the base S3 path where logs should be uploaded
 s3_upload_base_path = "logs"
 
+# List to hold paths of created zip files for cleanup
+created_zip_files = []
+
 # Iterate over subdirectories within the logs group folder
 for log_group_folder in os.listdir(local_logs_root):
     local_logs_path = os.path.join(local_logs_root, log_group_folder)
 
     # Check if the path is a directory
     if os.path.isdir(local_logs_path):
-        # Collect log files older than seven days
-        old_logs = collect_logs_older_than_seven_days(local_logs_path)
+        # Collect log files older than two days
+        old_logs = collect_logs_older_than_two_days(local_logs_path)
 
         # Create a zip file for old logs
         if old_logs:
             zip_file_path = create_zip_folder(local_logs_path, old_logs)
+            created_zip_files.append(zip_file_path)
 
             # Upload the zip file to S3
             if upload_to_s3(zip_file_path, s3_bucket_name, s3_upload_base_path, local_logs_path):
@@ -87,3 +91,8 @@ for log_group_folder in os.listdir(local_logs_root):
             print("No old logs found in {}.".format(local_logs_path))
     else:
         print("{} is not a directory.".format(local_logs_path))
+
+# Clean up created zip files
+for zip_file in created_zip_files:
+    os.remove(zip_file)
+    print("Removed created zip file:", zip_file)
