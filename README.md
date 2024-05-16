@@ -1,19 +1,36 @@
-Update on Extension Installation for Tableau Infotopics.
+Certainly! Here's a sample notification email you can send to inform stakeholders about the server downtime for KMS key upgrade:
 
-Steps need to followed while doing this Extension Installation 
+---
 
-1. We need to have 1 extension 
-     aft-extensions-manager-linux-1.2.0 : Using this installation we can get other extension installed. 
+Subject: [Urgent] Scheduled Server Downtime for KMS Key Upgrade
 
-2. When we extract zip file for this extension it give bash script type file which we run using
-    sudo ./aft-extensions-manager
+Dear Team,
 
-3. It will start running the service. It will open port which will be available. 
-    Ex: http://10.201.165.244:33363
-    In same time we need to open the service in browser and follow the instruction given over web ui
-    Is should be like this
-    Online configuration and features - Infotopics | Apps for Tableau
+I hope this email finds you well. We wanted to inform you about an upcoming scheduled maintenance window for our Tableau application.
 
-4. Blocker:
-    We need to have firewall request to allow this particular port which is open by same time when we run this extension manager file. I have observed that this port and accordingly raised the support request: https://amexgbt.freshservice.com/support/tickets/1581454
-Once its done, I will connect with Udbhav for to do configuration from browser side if needed.
+**Maintenance Schedule:**
+- **Date:** [Insert Date]
+- **Time:** 2:30 PM to 4:30 PM IST
+
+During this time frame, our Tableau application will be in a stop state to facilitate the upgrade of the KMS key. This upgrade is crucial for ensuring the security and performance of our system.
+
+**Impact on Operations:**
+- Access to the Tableau application will be unavailable.
+- Users will not be able to perform any operations on the application during this period.
+
+**Action Required:**
+- Please ensure that all ongoing tasks or processes on the Tableau application are completed or saved before the maintenance window begins.
+- Inform relevant stakeholders about the downtime to minimize any inconvenience.
+
+We apologize for any inconvenience this may cause and appreciate your understanding and cooperation. If you have any questions or concerns, please feel free to reach out to [Insert Contact Information].
+
+Thank you for your attention to this matter.
+
+Best regards,
+[Your Name]
+[Your Position]
+[Your Contact Information]
+
+---
+
+Make sure to fill in the placeholders with relevant details such as the maintenance date, your contact information, and any additional instructions specific to your organization's processes.
