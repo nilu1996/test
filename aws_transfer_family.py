@@ -2,7 +2,7 @@ import boto3
 import json
 
 # Replace 'your_server_id' with the actual ID of your Transfer server
-SERVER_ID = 's-01234567890abcdef'
+SERVER_ID = 's-2245b08aaeb0439ab'
 
 def start_transfer_server(server_id):
     """
