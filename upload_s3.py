@@ -1,35 +1,46 @@
 import boto3
-import logging
+import json
 
-# Configure logging
-logger = logging.getLogger()
-logger.setLevel(logging.INFO)
+# Replace 'your_server_id' with the 
+# actual ID of your Transfer server
+SERVER_ID = 's-2245b08aaeb0439ab'
+
+def stop_transfer_server(server_id):
+    """
+    Stop an AWS Transfer Family server.
+
+    Parameters:
+    - server_id: The ID of the server to stop.
+    """
+    # Initialize the Transfer client
+    transfer_client = boto3.client('transfer')
+
+
+    response = transfer_client.stop_server(ServerId=server_id)
+    print("Server stopped successfully.")
 
 def lambda_handler(event, context):
+
     try:
-        # Define your EC2 region
-        ec2_region = 'us-east-1'
+        # Call the function to stop the server
+        stop_transfer_server(SERVER_ID)
 
-        # Initialize the EC2 client
-        ec2_client = boto3.client('ec2', region_name=ec2_region)
-
-        # List of instance IDs to start
-        instance_ids = ['i-0834b38f7628b7a6c']
-
-        # Start each instance
-        for instance_id in instance_ids:
-            try:
-                response = ec2_client.start_instances(InstanceIds=[instance_id])
-                logger.info(f"Start Instances Response: {response}")
-                logger.info(f"Started EC2 instance: {instance_id}")
-            except Exception as e:
-                logger.error(f"Error starting instance {instance_id}: {str(e)}")
-
-        logger.info("All specified EC2 instances have been processed.")
-        
-    except Exception as e:
-        logger.error(f"Lambda function error: {str(e)}")
-
-# Uncomment the following lines to test locally
-# if __name__ == "__main__":
-#     lambda_handler(None, None)
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps({
+                "Server ": str(SERVER_ID)
+            })
+        }
+    except Exception as err:
+        return {
+            "statusCode": 500,
+            "headers": {
+                "Content-Type": "application/json"
+            },
+            "body": json.dumps({
+                "Server ": str(SERVER_ID)
+            })
+        }
