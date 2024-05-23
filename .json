@@ -2,28 +2,19 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "VisualEditor1",
             "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::dp-dev-curated*",
-                "arn:aws:s3:::dp-dev-curated/*"
-            ]
+            "Action": "scheduler:*",
+            "Resource": "*"
         },
         {
-            "Sid": "Statement1",
             "Effect": "Allow",
-            "Action": [
-                "logs:CreateLogGroup",
-                "logs:CreateLogStream",
-                "logs:PutLogEvents"
-            ],
-            "Resource": [
-                "*"
-            ]
+            "Action": "iam:PassRole",
+            "Resource": "arn:aws:iam::*:role/*",
+            "Condition": {
+                "StringLike": {
+                    "iam:PassedToService": "scheduler.amazonaws.com"
+                }
+            }
         }
     ]
 }
