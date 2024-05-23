@@ -2,12 +2,28 @@
     "Version": "2012-10-17",
     "Statement": [
         {
-            "Sid": "ExampleStmt2",
-            "Action": [
-                "kms:Decrypt"
-            ],
+            "Sid": "VisualEditor1",
             "Effect": "Allow",
-            "Resource": "arn:aws:kms:us-east-1:977235926863:key/82b51788-0241-4100-afcc-c519df35baf1"
+            "Action": [
+                "s3:GetObject",
+                "s3:ListBucket"
+            ],
+            "Resource": [
+                "arn:aws:s3:::dp-dev-curated*",
+                "arn:aws:s3:::dp-dev-curated/*"
+            ]
+        },
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": [
+                "*"
+            ]
         }
     ]
 }
