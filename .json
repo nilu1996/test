@@ -4,8 +4,11 @@
         {
             "Effect": "Allow",
             "Action": [
-                "ds:CreateComputer",
-                "ds:DescribeDirectories"
+                "s3:Get*",
+                "s3:List*",
+                "s3:Describe*",
+                "s3-object-lambda:Get*",
+                "s3-object-lambda:List*"
             ],
             "Resource": "*"
         }
