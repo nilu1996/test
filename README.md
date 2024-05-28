@@ -53,3 +53,7 @@ tsm restart
 ---
 
 Feel free to replace the placeholder links and paths with the actual values, and make any adjustments as necessary. This structure provides a clear step-by-step guide for installing both ODBC and JDBC drivers for Amazon Redshift on a Red Hat-based OS for Tableau Server.
+
+
+
+https://help.alteryx.com/current/en/license-and-activate/install/download-and-install-a-patch-update.html#download-and-install-a-patch-update
