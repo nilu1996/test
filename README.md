@@ -57,3 +57,52 @@ Feel free to replace the placeholder links and paths with the actual values, and
 
 
 https://help.alteryx.com/current/en/license-and-activate/install/download-and-install-a-patch-update.html#download-and-install-a-patch-update
+
+
+Storage Environments in Alteryx Analytics Cloud
+Default Storage Environment:
+
+When you sign up for Alteryx Analytics Cloud, you get a default storage environment.
+This default environment stores your data and metadata.
+It supports various types of data assets like imported datasets, job results, samples, and temporary files.
+Storage Options:
+
+TFS (Trifacta File System):
+Managed by Alteryx, no extra setup needed.
+Uses AWS S3 buckets managed by Alteryx.
+Default storage environment when you first launch the product.
+Can be used alongside S3.
+S3 (Amazon S3):
+Uses your own S3 buckets.
+Requires configuration and credentials.
+Can be set as the default storage environment or used with TFS.
+Choosing and Configuring Storage:
+
+Default Storage Setup:
+Initially, TFS is the default storage.
+S3 is enabled as secondary storage, requiring setup and credentials.
+Changing Default Storage:
+You can switch the default storage between TFS and S3.
+Ensure you have necessary S3 credentials before switching.
+Configure this through the Workspace Settings Page.
+S3 Configuration:
+
+Access Modes:
+Workspace Mode: All users share the same credentials.
+User Mode: Each user has individual credentials (may not be available in all editions).
+Authentication Methods:
+IAM Role: Recommended, involves creating a role with specific permissions.
+Access Keys: Use key-secret combinations for access.
+Disabling Access:
+
+Disable S3:
+Can be done if TFS is the default storage.
+Go to Workspace Settings and disable S3 connectivity.
+Disable TFS:
+Can be done if S3 is the default storage.
+Go to Workspace Settings and disable TFS.
+Final Steps:
+
+Verify credentials and configurations.
+Apply changes in Workspace Settings.
+Ensure assets are stored in the selected default environment.
