@@ -1,15 +1,10 @@
-Sure, here is a more technical version of your message:
+If you anyone of you available today for 15min, Can we connect if possible?
 
----
+Also please help me with my few querys I have.
 
-Thank you for your feedback. We need to complete this upgrade by the end of this month. 
+1. What is expected downtime for this activity ?
 
-Before proceeding, we require a comprehensive plan as we have a substantial user base for HRG Alteryx. 
+2. As it will be Major version update do we need to jump first some stable version first then go to version 2023.2.1.13
+    Or we can jump directly to higher version.
 
-I would like to schedule a call with you to discuss this activity and formulate a detailed plan. If you are unavailable, it would be helpful if someone else from your team could assist us.
-
-We would prefer to have this call today, if possible.
-
----
-
-Feel free to adjust any details to better fit your specific needs.
+3. Please share pre-requested needed to be done before this upgrade and after this upgrade.
