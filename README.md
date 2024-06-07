@@ -1,10 +1,8 @@
-If you anyone of you available today for 15min, Can we connect if possible?
+If any team member is available for a brief 15-minute discussion today, could we schedule a quick call? Additionally, I have a few technical queries regarding our upcoming upgrade activity that I would appreciate your input on:
 
-Also please help me with my few querys I have.
+What is the anticipated downtime for this upgrade activity?
 
-1. What is expected downtime for this activity ?
+Given that this is a major version update, is it necessary to first upgrade to an intermediate stable version before transitioning to version 2023.2.1.13, or can we proceed directly to the higher version?
 
-2. As it will be Major version update do we need to jump first some stable version first then go to version 2023.2.1.13
-    Or we can jump directly to higher version.
+Could you please provide a detailed list of prerequisites that need to be addressed both before and after the upgrade?
 
-3. Please share pre-requested needed to be done before this upgrade and after this upgrade.
