@@ -1,10 +1,22 @@
-Hello Team,
+Got it! Here’s a follow-up email addressed specifically to Neil and his team:
 
-We are currently addressing the connectivity issue between Alteryx HRG and Tableau Server. I would like to request a status update on this matter.
+---
 
-During our last discussion, Neil and his team mentioned that they are investigating the network issue internally. They committed to informing the GBT team once a resolution is reached.
+**Subject: Follow-Up: Status Update on Alteryx HRG to Tableau Server Connectivity Issue**
 
-Could you please provide an update on the current status of this investigation?
+Hello Neil and Team,
 
-Thank you.
+I hope this message finds you well.
 
+I am writing to follow up on the connectivity issue between Alteryx HRG and Tableau Server. We are keen to understand the current status of your internal investigation and any progress that has been made.
+
+During our last discussion, you mentioned that your team was looking into the network issue and would update the GBT team upon resolution. We would greatly appreciate any updates you can provide at this time.
+
+Thank you for your attention to this matter. Looking forward to your response.
+
+Best regards,  
+[Your Name]
+
+---
+
+This version specifically addresses Neil and his team, while clearly expressing the need for an update on the ongoing issue.
