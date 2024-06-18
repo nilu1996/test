@@ -1,16 +1,52 @@
+Cost Analysis for Setting up a CloudWatch dashboard to monitor our EC2 instances
 
 
-Hello Neels,
+EC2 Instances
+   • Cost: Variable based on instance type, size, and region.
+   • Details: EC2 pricing is based on instance hours, storage, and data transfer.
+   
+IAM Role 
+   • Cost: Free. 
+   • Details: IAM is free of charge, but charges may apply for other AWS services accessed via IAM roles.
+   
+CloudWatch Agent 
+   • Cost: No additional charge for the CloudWatch agent itself. 
+   • Details: Charges are incurred for the metrics collected by the agent.
+   
+CloudWatch Metrics 
+   • Cost: $0.30 per metric per month for custom metrics. 
+   • Details: We will be collecting 4 CPU metrics and 1 memory metric. Each metric collected incurs charges.
+   
+CloudWatch Dashboard 
+   • Cost: $3.00 per dashboard per month. 
+   • Details: Charges are incurred per dashboard.
+   
+CloudWatch Alarms 
+   • Cost: $0.10 per alarm per month. 
+   • Details: Charges apply per alarm created for CPU and memory metrics.
+   
 
-I had a discussion with our Network and Firewall team regarding the issue with the HRG server.
 
-Although the HRG server can resolve the DNS entry, it encounters issues when publishing data. We have verified from the GBT firewall side, and the team does not observe any traffic originating from the HRG Alteryx server IP address.
-
-Could you please investigate with the HRG Firewall or Network team to determine why the HRG network is blocking traffic to the GBT Tableau URL?
-
-Regarding the IP address, our Tableau Server setup includes a load balancer behind the application. Performing an nslookup on the URLs shows that the IP addresses change every 12 hours, making it impractical to whitelist a specific IP address.
-
-Additionally, the Tableau EC2 instance is assigned a Private IP address. Please take this into account when investigating the issue.
-
-Thank you,
-[Your Name]
+SNS (Simple Notification Service) 
+   • Cost: $0.50 per 1 million Amazon SNS requests, plus $0.06 per 100,000 notifications over HTTP/S, $0.75 per 100 notifications over    SMS,and $2.00 per 100,000 email notifications. 
+   • Details: Costs depend on the number of notifications sent. 
+   
+ Example Cost Calculation Assuming
+     we have 1 EC2 instance and we monitor 4 CPU metrics and 1 memory metric, with 2 alarms set up (one for CPU and one for memory), and notifications sent via email:
+	 
+    EC2 Instance: Variable, depending on instance type.
+    IAM Role: Free.
+    CloudWatch Agent: Free (installation and operation).
+    CloudWatch Metrics: 
+	  • 5 metrics (4 CPU + 1 memory) $0.30 = $1.50 per month.
+    CloudWatch Dashboard: 
+	  • 1 dashboard $3.00 = $3.00 per month.
+    CloudWatch Alarms: 
+	  • 2 alarms $0.10 = $0.20 per month.
+    SNS Notifications: 
+	  • Assuming 1,000 email notifications per month. 
+	  • 1,000 notifications $2.00 per 100,000 = $0.02 per month.
+	
+  Total Monthly Cost: • Metrics: $1.50 • Dashboard: $3.00 • Alarms: $0.20 • Notifications: $0.02 
+	  
+	  Estimated Total: $4.72 per month (excluding the EC2 instance cost).
