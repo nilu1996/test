@@ -51,3 +51,4 @@ If you have any questions or need further clarification, please feel free to con
 Best regards,
 
 [Your Name]
+https://aws.amazon.com/blogs/machine-learning/build-an-end-to-end-mlops-pipeline-using-amazon-sagemaker-pipelines-github-and-github-actions/
