@@ -7,6 +7,11 @@ Parameters:
     Type: String
     Default: "prod"
 
+  S3BucketRegion:
+    Description: "The region where the S3 bucket is located"
+    Type: String
+    Default: "us-east-1"
+
 Resources:
   # S3 Bucket to store screenshots
   ScreenshotBucket:
