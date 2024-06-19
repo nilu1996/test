@@ -74,7 +74,8 @@ Resources:
       Code:
         S3Bucket: my-lambda-code-bucket
         S3Key: lambda_function.zip
-        S3ObjectVersion: !Ref S3BucketRegion  # Ensure correct region
+        # Specify the region of the S3 bucket explicitly
+        S3ObjectVersion: !Ref S3BucketRegion
 
   # Event Source Mapping for SQS to Lambda
   SQSToLambdaEventSourceMapping:
