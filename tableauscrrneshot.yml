@@ -74,7 +74,6 @@ Resources:
       Code:
         S3Bucket: my-lambda-code-bucket
         S3Key: lambda_function.zip
-        S3ObjectVersion: null
       Environment:
         Variables:
           AWS_REGION: !Ref LambdaFunctionRegion
