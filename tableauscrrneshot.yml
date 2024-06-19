@@ -1,0 +1,76 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: CloudFormation template to set up AWS Lambda infrastructure for Tableau screenshot script triggered by SQS
+
+Resources:
+  # S3 Bucket to store screenshots
+  ScreenshotBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub 'tableau-screenshots-${AWS::AccountId}'
+
+  # SQS Queue
+  ScreenshotQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: tableau-screenshot-queue
+
+  # IAM Role for Lambda
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: LambdaSQSExecutionPolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - sqs:ReceiveMessage
+                  - sqs:DeleteMessage
+                  - sqs:GetQueueAttributes
+                Resource: !GetAtt ScreenshotQueue.Arn
+              - Effect: Allow
+                Action:
+                  - s3:PutObject
+                Resource: !Sub 'arn:aws:s3:::${ScreenshotBucket}/*'
+
+  # Lambda Function
+  ScreenshotLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: tableau-screenshot-lambda
+      Handler: index.lambda_handler
+      Role: !GetAtt LambdaExecutionRole.Arn
+      Runtime: python3.8
+      Timeout: 60
+      MemorySize: 1024
+      Code:
+        S3Bucket: my-lambda-code-bucket
+        S3Key: lambda_function.zip
+
+  # Event Source Mapping for SQS to Lambda
+  SQSToLambdaEventSourceMapping:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      EventSourceArn: !GetAtt ScreenshotQueue.Arn
+      FunctionName: !GetAtt ScreenshotLambda.Arn
+      Enabled: true
+
+Outputs:
+  LambdaFunctionArn:
+    Description: "ARN of the Lambda Function"
+    Value: !GetAtt ScreenshotLambda.Arn
+  SQSQueueURL:
+    Description: "URL of the SQS Queue"
+    Value: !Ref ScreenshotQueue
+  S3BucketName:
+    Description: "Name of the S3 Bucket for screenshots"
+    Value: !Ref ScreenshotBucket
