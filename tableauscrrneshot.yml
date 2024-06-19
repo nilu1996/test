@@ -12,12 +12,21 @@ Parameters:
     Type: String
     Default: "us-east-1"
 
+  LambdaFunctionRegion:
+    Description: "The region where the Lambda function should be deployed"
+    Type: String
+    Default: "us-east-1"
+
 Resources:
   # S3 Bucket to store screenshots
   ScreenshotBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName: !Sub 'tableau-screenshots-${EnvironmentName}-${AWS::AccountId}'
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
 
   # SQS Queue
   ScreenshotQueue:
@@ -65,6 +74,7 @@ Resources:
       Code:
         S3Bucket: my-lambda-code-bucket
         S3Key: lambda_function.zip
+        S3ObjectVersion: !Ref S3BucketRegion  # Ensure correct region
 
   # Event Source Mapping for SQS to Lambda
   SQSToLambdaEventSourceMapping:
