@@ -1,18 +1,24 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Description: CloudFormation template to set up AWS Lambda infrastructure for Tableau screenshot script triggered by SQS
 
+Parameters:
+  EnvironmentName:
+    Description: "Environment name to ensure unique resource names"
+    Type: String
+    Default: "prod"
+
 Resources:
   # S3 Bucket to store screenshots
   ScreenshotBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub 'tableau-screenshots-${AWS::AccountId}'
+      BucketName: !Sub 'tableau-screenshots-${EnvironmentName}-${AWS::AccountId}'
 
   # SQS Queue
   ScreenshotQueue:
     Type: AWS::SQS::Queue
     Properties:
-      QueueName: tableau-screenshot-queue
+      QueueName: !Sub 'tableau-screenshot-queue-${EnvironmentName}'
 
   # IAM Role for Lambda
   LambdaExecutionRole:
@@ -45,7 +51,7 @@ Resources:
   ScreenshotLambda:
     Type: AWS::Lambda::Function
     Properties:
-      FunctionName: tableau-screenshot-lambda
+      FunctionName: !Sub 'tableau-screenshot-lambda-${EnvironmentName}'
       Handler: index.lambda_handler
       Role: !GetAtt LambdaExecutionRole.Arn
       Runtime: python3.8
