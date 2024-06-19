@@ -1,2 +1,1 @@
-Set up AWS Lambda for Tableau screenshot script
-This should be connected to SQS Queue and should be triggered when objects are pushed into the queue
+Resource handler returned message: "Error occurred while GetObject. S3 Error Code: PermanentRedirect. S3 Error Message: The bucket is in this region: us-east-2. Please use this region to retry the request (Service: Lambda, Status Code: 400, Request ID: 80f91c0f-bd73-4a24-950b-acc691b66be4)" (RequestToken: ea7ae8ec-3bb6-8930-bdf3-15327fa813ab, HandlerErrorCode: InvalidRequest)
