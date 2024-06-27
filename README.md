@@ -1,26 +1,25 @@
+Hello Nilesh 
 
-Subject: AWS Services Pricing Estimate for MLOps Pipeline Setup
-Dear 
-I hope this message finds you well.
-As requested, I have prepared an estimated monthly cost for the AWS services required to set up an end-to-end MLOps pipeline using Amazon SageMaker, GitHub, and GitHub Actions. Please find the detailed breakdown of the costs below:
-Amazon SageMaker:
-•	SageMaker Studio (ml.t3.medium, 160 hours/month): $7.42
-•	SageMaker Pipelines (ml.m5.xlarge, 50 hours/month): $9.60
-•	SageMaker Inference (ml.m5.large, 720 hours/month): $82.80
-Amazon S3:
-•	Storage (50 GB): $1.15
-•	Requests (100,000 GET requests): $0.04
-AWS Lambda:
-•	Invocations (1,000,000 requests): $0.20
-•	Compute (100ms duration/request): $1.67
-Amazon EventBridge:
-•	Event Ingestion and Delivery (1,000,000 events): $1.00
-AWS Secrets Manager:
-•	Secrets Management (10 secrets): $4.00
-GitHub Actions:
-•	Additional Minutes (8,000 minutes): $64.00
-Total Estimated Monthly Cost: $171.88
-Please note that these costs are estimates based on typical usage patterns and may vary depending on actual usage and AWS pricing updates. For a more accurate estimate tailored to your specific needs, I recommend using the AWS Pricing Calculator.
-If you have any questions or need further details, please do not hesitate to reach out.
-Thank you.
+This Karabo here again, Thank you for connecting with me earlier. 
+
+During the call we successfully built a customer container and attached it to the domain, however, we were not able to start the notebook using the custom image due to a 400 Bad Request error.
+
+I would like to inform you that your JupyterLab fails to launch with a custom image due to  status code  400 Bad Request returned when trying to connect to SageMaker API endpoint. When you click on "Run Space" Studio tries to first update the space image using the UpdateSpace API. From the HAR file you shared, it failed to send a UpdateSpace request to the SageMaker endpoint "api.sagemaker.us-east-1.amazonaws.com" with a 400 Bad Request status code.
+
+I reviewed the VPC "vpc-0e86f92aeebe0b3b2" used by your domain and could not locate the SageMaker API endpoint "com.amazonaws.region.sagemaker.api". I would like to inform you that your domain is deployed in VPC only mode. In order to call the UpdateSpace API you will need the SageMaker api endpoint "com.amazonaws.region.sagemaker.api". To learn more about VPC only requirements please see this link [1]. 
+
+To create a VPC endpoint please follow this link [2]. Your domain was created using this subnet "subnet-09997d8d032494830" and this security group: "sg-0bfc83c5dd1872949". Please use this same subnet and security group when creating the endpoint.  
+
+After you create the endpoint, please try launching again. If you encounter any issues, we will be happy to schedule a call to troubleshoot.
+
+Please let me know if you have any other questions. I'm here to assist you.
+
+References: 
+[1] https://docs.aws.amazon.com/sagemaker/latest/dg/studio-notebooks-and-internet-access.html 
+[2]  https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html 
+
+We value your feedback. Please share your experience by rating this and other correspondences in the AWS Support Center. You can rate a correspondence by selecting the stars in the top right corner of the correspondence.
+
 Best regards,
+Karabo K.
+Amazon Web Services
