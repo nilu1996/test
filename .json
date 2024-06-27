@@ -1,32 +1,61 @@
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
-            "Resource": [
-                "arn:aws:s3:::gbt-dev-alteryx"
-            ],
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "Dass/*"
-                    ]
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject"
+AWSTemplateFormatVersion: '2010-09-09'
+Description: An example CloudFormation template to create a Lambda function
 
-            ],
-            "Resource": [
-                "arn:aws:s3:::gbt-dev-alteryx/Dass/*"
-            ]
-        }
-    ]
-}
+Parameters:
+  LambdaS3Bucket:
+    Type: String
+    Description: The S3 bucket where the Lambda function code is stored
+  LambdaS3Key:
+    Type: String
+    Description: The S3 key where the Lambda function code is stored
+
+Resources:
+  LambdaExecutionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: '2012-10-17'
+        Statement: 
+          - Effect: Allow
+            Principal: 
+              Service: 
+                - lambda.amazonaws.com
+            Action: 
+              - sts:AssumeRole
+      Policies: 
+        - PolicyName: LambdaExecutionPolicy
+          PolicyDocument: 
+            Version: '2012-10-17'
+            Statement: 
+              - Effect: Allow
+                Action: 
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
+                Resource: 'arn:aws:logs:*:*:*'
+
+  LambdaFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: MyLambdaFunction
+      Handler: index.handler
+      Role: !GetAtt MyLambdaExecutionRole.Arn
+      Code:
+        S3Bucket: !Ref LambdaS3Bucket
+        S3Key: !Ref LambdaS3Key
+      Runtime: python3.11
+      Timeout: 60
+      MemorySize: 128
+      TracingConfig:
+        Mode: Active
+      VpcConfig:
+        SecurityGroupIds:
+          - sg-085912345678492fb
+        SubnetIds:
+          - subnet-071f712345678e7c8
+          - subnet-07fd123456788a036
+
+Outputs:
+  LambdaFunctionArn:
+    Description: The ARN of the Lambda function
+    Value: !GetAtt MyLambdaFunction.Arn
