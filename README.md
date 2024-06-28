@@ -1,20 +1,26 @@
-Sure, here's a revised version of your email:
+Link : https://docs.infotopics.com/mailscheduler/installation-guide/upgrade
 
----
 
-**Subject: Upgrade of MailScheduler Extension to 3.1.0**
+Mail Sceduler : 3.0.2  latest : 3.1.0
 
-Hello Team,
+1. downlaod latest file from mailscheduler website link
+    https://docs.infotopics.com/mailscheduler/installation-guide/upgrade
 
-I am pleased to inform you that we have successfully upgraded the MailScheduler Extension from version 3.0.1 to 3.1.0. I have documented the upgrade steps on our Confluence page. You can find the detailed instructions [here](insert-link).
+2. Upload that file to give tableau extetion driver path.
 
-Regarding the aft-extension, we have four different components running, including Drill and Supertable. Nico is currently uncertain about the upgrade process, and as a result, we are unable to proceed with it at the moment. He is expected to connect with me by Monday, and we will aim to finalize the setup then.
+3. Stop the mailscheduler-amd64 service
+   ./mailscheduler-amd64 service stop
 
-Thank you for your understanding and patience.
+3. Rename old file 
+   mv mailscheduler-amd64 mailscheduler-amd64-old
+   
+4. Place new file in same location
+   /home/svc_calinuser177/tableau_infotopics
+   
+   aws s3 cp s3://gbt-tableau/mailscheduler-amd64 .
 
-Best regards,  
-[Your Name]
+5. Make Mailsceduler file excutable 
+   chmod +x mailscheduler-amd64
 
----
-
-Feel free to adjust the content as needed.
+6. Start the mailscheduler serice 
+   mailscheduler-amd64 service start 
