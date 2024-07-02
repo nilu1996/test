@@ -1,33 +1,33 @@
-Certainly! Here's a detailed and technically refined email based on your draft:
+Tableau Infotopics Upgrade Extension Documentation
+Upgrade Extensions
+To update or upgrade your installation of a Tableau Infotopics extension while online, follow these steps:
 
----
+Step-by-Step Instructions
+Turn off the server in the ExtensionsManager
 
-Subject: Discussion Summary: Adding Extra Nodes to Alteryx Production Environment
+Open the ExtensionsManager.
+Locate the server related to the extension you want to upgrade.
+Turn off the server.
+Go to .../AFT Extension Manager/extensions and delete the relevant product folder
 
-Hi Chandan,
+Navigate to the directory where the extensions are stored.
+Locate the folder of the product you want to upgrade.
+Delete the relevant product folder.
+Note: Backup any logs in the folder for later reference.
 
-I hope this email finds you well.
+Backup any logs in the folder for later reference
 
-I had a discussion with Paul regarding the enhancement of our Alteryx production environment by adding extra nodes. Paul suggested two potential approaches to address our requirements:
+Before deleting the folder, make sure to backup any logs that may be needed for future reference.
+Download the updated version of the product from the AFT Company Portal
 
-### 1. Increasing Instance Size:
-   - Instead of adding two extra nodes, we could increase the instance type from `m6i.2xlarge` to `m6i.4xlarge`.
-   - Prior to upgrading the primary node, we need to add the necessary extra licenses. No additional actions are required for the worker nodes.
-   - This approach necessitates increasing the instance size of both nodes to ensure optimal performance.
+Visit AFT Company Portal.
+Log in and download the latest version of the product.
+Go to "Manual product installation" and drag in the .zip file
 
-### 2. Adding Extra Nodes:
-   - Alternatively, we could proceed with adding two extra nodes. However, this requires modifications to the CloudFormation Template (CFT) used during the initial Alteryx setup.
-   - We need to evaluate the potential impact on the application caused by these changes to the CFT.
-   - It is crucial to test these changes in a lower environment before implementing them in the production environment to ensure stability and reliability.
+Open the ExtensionsManager.
+Navigate to the "Manual product installation" section.
+Drag and drop the downloaded .zip file into the designated area.
+Restart the product
 
-Given the complexity of these changes, we will require Paul's support during the implementation phase. His expertise will be invaluable in ensuring a smooth transition and mitigating any potential risks.
-
-Please let me know your feedback on these approaches. Your insights will be instrumental in deciding the best course of action for enhancing our Alteryx production environment.
-
-Best regards,
-
-[Your Name]
-
----
-
-Feel free to modify any part of the email to better fit your specific context or requirements.
+After the installation is complete, restart the product to ensure the update is applied correctly.
+By following these steps, you can successfully update or upgrade your Tableau Infotopics extension.
