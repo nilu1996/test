@@ -1,33 +1,32 @@
-Tableau Infotopics Upgrade Extension Documentation
-Upgrade Extensions
-To update or upgrade your installation of a Tableau Infotopics extension while online, follow these steps:
+Sure! Here's a more detailed and technically worded email for your requirements:
 
-Step-by-Step Instructions
-Turn off the server in the ExtensionsManager
+---
 
-Open the ExtensionsManager.
-Locate the server related to the extension you want to upgrade.
-Turn off the server.
-Go to .../AFT Extension Manager/extensions and delete the relevant product folder
+Subject: Setup of Python Application on Hive Server
 
-Navigate to the directory where the extensions are stored.
-Locate the folder of the product you want to upgrade.
-Delete the relevant product folder.
-Note: Backup any logs in the folder for later reference.
+Hi Chandan,
 
-Backup any logs in the folder for later reference
+I hope this email finds you well.
 
-Before deleting the folder, make sure to backup any logs that may be needed for future reference.
-Download the updated version of the product from the AFT Company Portal
+I had a discussion with Prakhar regarding the setup of a Python application, which they expect to be operational during IST hours. We propose to set up this application on the Hive server, where Bison is already deployed.
 
-Visit AFT Company Portal.
-Log in and download the latest version of the product.
-Go to "Manual product installation" and drag in the .zip file
+### Expected Work from Our Side:
 
-Open the ExtensionsManager.
-Navigate to the "Manual product installation" section.
-Drag and drop the downloaded .zip file into the designated area.
-Restart the product
+1. **Setup Application on EC2 Instance:**
+   - We will deploy the Python application on an EC2 instance, ensuring it is configured correctly and ready for use.
 
-After the installation is complete, restart the product to ensure the update is applied correctly.
-By following these steps, you can successfully update or upgrade your Tableau Infotopics extension.
+2. **Setup AWS Lambda to Manage EC2 Instance:**
+   - We will configure an AWS Lambda function to automatically turn on the EC2 instance in the morning. This is necessary because our lower environments are turned off during the night to optimize costs.
+
+3. **Setup Bash Script to Initialize the Application:**
+   - We will create a bash script that will start the Python application whenever the EC2 instance is powered on. This script will be integrated with the instance’s startup routine to ensure the application is up and running without manual intervention.
+
+Please let me know your feedback on this plan. Once I have your approval, I will proceed with the implementation.
+
+Best regards,
+
+[Your Name]
+
+---
+
+Feel free to adjust the email to better match your specific context or preferences.
