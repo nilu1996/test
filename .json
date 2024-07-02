@@ -3,29 +3,12 @@
     "Statement": [
         {
             "Effect": "Allow",
-            "Action": [
-                "s3:ListBucket"
-            ],
+            "Action": "s3:*",
             "Resource": [
-                "arn:aws:s3:::gbt-dev-alteryx"
-            ],
-            "Condition": {
-                "StringLike": {
-                    "s3:prefix": [
-                        "dass/*"
-                    ]
-                }
-            }
-        },
-        {
-            "Effect": "Allow",
-            "Action": [
-                "s3:GetObject",
-                "s3:PutObject"
-
-            ],
-            "Resource": [
-                "arn:aws:s3:::gbt-dev-alteryx/Dass/*"
+                "arn:aws:s3:::gbt-dev-altreyx",
+                "arn:aws:s3:::gbt-dev-altreyx/*",
+                "arn:aws:s3:::gbt-redshift-bucket",
+                "arn:aws:s3:::gbt-redshift-bucket/*"
             ]
         }
     ]
