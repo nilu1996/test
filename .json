@@ -1,15 +1,38 @@
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Action": "s3:*",
-            "Resource": [
-                "arn:aws:s3:::gbt-dev-altreyx",
-                "arn:aws:s3:::gbt-dev-altreyx/*",
-                "arn:aws:s3:::gbt-redshift-bucket",
-                "arn:aws:s3:::gbt-redshift-bucket/*"
-            ]
-        }
-    ]
+import json
+import os
+
+# Hardcoded API keys and secrets for validation (in a real scenario, these should be stored securely, e.g., in AWS Secrets Manager)
+VALID_API_KEYS = {
+    "api_key_1": "secret_1",
+    "api_key_2": "secret_2"
 }
+
+def lambda_handler(event, context):
+    try:
+        # Parse the API key and secret from the request
+        api_key = event['headers'].get('x-api-key')
+        api_secret = event['headers'].get('x-api-secret')
+
+        # Validate the API key and secret
+        if api_key in VALID_API_KEYS and VALID_API_KEYS[api_key] == api_secret:
+            return {
+                "statusCode": 200,
+                "body": json.dumps({
+                    "message": "API key and secret are valid"
+                })
+            }
+        else:
+            return {
+                "statusCode": 403,
+                "body": json.dumps({
+                    "message": "Invalid API key or secret"
+                })
+            }
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "body": json.dumps({
+                "message": "An error occurred",
+                "error": str(e)
+            })
+        }
