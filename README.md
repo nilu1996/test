@@ -1,21 +1,10 @@
-Need to create Infra to support scalable architecture for Tableau Screenshot Export service for BI Platform using AWS Sandbox environment. 
+Hi Nilesh, Adithya
+Please use STS token with IAM role for accessing S3 location, Using boto3.
 
-SharePoint Reference for System Architecture Design:
+I think we discussed this but was dropped somewhere in priorities. We have certain audits, and this can’t go on so please work on this change on priority.
 
-BI Tableau Screenshot Export.png
+Following processes are using S3 Secret and access keys:
+GTDR Python script
+Few WellsFargoBi Lambda functions
 
-Attached the image also below..
-
-
-
-
-Checklist:
-
-API Gateway connectivity
-Lambda service to validate API Key and Secrets
-AWS SQS to support Queue mechanism
-AWS Lambda service to pull request from the SQS and process the request
-Email Trigger Service upon success/failure.
-Need logger implementation (services logs should be added to S3 - So that ELK can pull the logs through it) . IN GBT we are using ELK to logs streaming) 
-
-
+All these needs to be updated and use the STS token method.
