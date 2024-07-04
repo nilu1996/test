@@ -4,7 +4,7 @@ SharePoint Reference for System Architecture Design:
 
 BI Tableau Screenshot Export.png
 
-Attached the image also below.
+Attached the image also below..
 
 
 
