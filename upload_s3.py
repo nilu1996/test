@@ -17,3 +17,6 @@ def lambda_handler(event, context):
         print(f"Started EC2 instance: {instance_id}")
 
     print("All specified EC2 instances have been started.")
+
+
+arn:aws:sns:us-east-1:090124397890:AWS-Tranfer-Family-Server-Status
