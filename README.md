@@ -72,3 +72,14 @@ Note: To install the repository on a second node, you must run the command descr
 Who can do this
 Tableau Server Administrators can reconfigure external repository. You will also need to have access to create PostgreSQL database instance on Amazon or Azure.
 
+
+
+It is worth pointing out here that these changes require the server to be off, and so you will incur some downtime when processing these changes. 
+ 
+A high level idea of the steps you will need to do are as follows: 
+1.	Stop the Tableau server with the tsm stop command 
+2.	Take a snapshot of the current external repository  
+3.	Deploy and restore the snapshot to the encrypted RDS 
+4.	Run the tsm commands to move the repository to be local - information here.  
+5.	Run the tsm commands to set up the new encrypted RDS as the new repository - information here.  
+6.	Start the Tableau server with the tsm start command. 
