@@ -1,9 +1,7 @@
-We would like to have call to discuss these changes.
+We would like to schedule a call to discuss the proposed changes.
 
-As this is needed for Tableau Production, we like to understand the impact first. 
+Given that these changes are critical for Tableau Production, we need to first assess their impact. Specifically, we are considering creating a new RDS instance from a snapshot, which will alter the endpoint and associated configuration.
 
-If we are planning to this activity, we need to create new RDS with snapshot and it will change the endpoint and configuration. 
+Since we are currently in the migration phase, understanding the impact is crucial before proceeding.
 
-As we are in process of migration now, we would like to understand the impact first.
-
-Please lets us know your availability, I will setup call accordingly. 
+Please provide your availability so that I can arrange the call accordingly.
