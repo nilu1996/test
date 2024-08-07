@@ -1,22 +1,30 @@
+import urllib.request
 import boto3
+import time
 
-def lambda_handler(event, context):
-    # Define your EC2 region
-    ec2_region = 'us-east-1'
+def send_sns_notification(topic_arn, message, region_name):
+    sns_client = boto3.client('sns', region_name=region_name, verify=False)
+    sns_client.publish(TopicArn=topic_arn, Message=message)
+    print("SNS notification sent successfully.")
 
-    # Initialize the EC2 client
-    ec2_client = boto3.client('ec2', region_name=ec2_region)
+def check_website_availability(urls, sns_topic_arn, region_name):
+    for url in urls:
+        try:
+            response = urllib.request.urlopen(url)
+            status_code = response.getcode()
+            if status_code == 200:
+                print(f"Website {url} is available.")
+            else:
+                message = f"The website {url} is unavailable. Status code: {status_code}"
+                send_sns_notification(sns_topic_arn, message, region_name)
+        except Exception as e:
+            message = f"Failed to connect to the website {url}: {e}"
+            send_sns_notification(sns_topic_arn, message, region_name)
 
-    # List of instance IDs to start
-    instance_ids = ['i-04cb2daddb1f38cf8', 'i-0c91a751903287cd4', 'i-0e23aa72b63a1a15d']
-
-    # Start each instance
-    for instance_id in instance_ids:
-        response = ec2_client.start_instances(InstanceIds=[instance_id])
-        print(response)
-        print(f"Started EC2 instance: {instance_id}")
-
-    print("All specified EC2 instances have been started.")
-
-
-arn:aws:sns:us-east-1:090124397890:AWS-Tranfer-Family-Server-Status
+if __name__ == "__main__":
+    website_urls = ["https://devtableau.gbt.gbtad.com/", "https://uattableau.gbt.gbtad.com/"]
+    sns_topic_arn = "arn:aws:sns:us-east-1:090124397890:Instance-Health-monitoring"
+    region_name = "us-east-1"  # Replace with your desired AWS region
+    while True:
+        check_website_availability(website_urls, sns_topic_arn, region_name)
+        time.sleep(1800)
