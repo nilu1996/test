@@ -1,46 +1,30 @@
-Reconfigure Tableau Server Repository
-Overview
-This guide outlines the steps to reconfigure the Tableau Server repository, including stopping the server, taking a snapshot, deploying the snapshot, and setting up a new repository.
+Here's a draft for your Confluence page based on the provided information:
 
-Steps
-Stop Tableau Server
+---
 
-Ensure no active connections by stopping Tableau Server.
-Command: tsm stop
-Take a Snapshot of the Current Repository
+# Jenkins CloudFormation Automation Setup
 
-Create a snapshot of your current PostgreSQL repository.
-Amazon RDS: Use AWS Management Console or AWS CLI.
-Deploy and Restore Snapshot to Encrypted RDS
+## 1. Introduction and Requirements
 
-Restore the snapshot to an encrypted RDS instance.
-Amazon RDS: Create a new RDS instance with encryption enabled.
-Move Repository to Local (if needed)
+**Recording URL:** [Share Video URL]  
+**Password:** [Share Password]
 
-If moving from an external to a local repository, disable the external repository.
-Command: tsm topology external-services repository disable -n nodeN
-Set Up New Encrypted RDS as Repository
+## 2. Access Request
 
-Create a JSON configuration file with the following settings:
-json
-Copy code
-{
-  "flavor": "<flavor name>",
-  "masterUsername": "<admin user name>",
-  "masterPassword": "<password>", 
-  "host": "<instance host name>",
-  "port": 5432
-}
-Configure Tableau Server to use the new RDS instance.
-Command:
-bash
-Copy code
-tsm topology external-services repository enable -f <file.json> -c <ssl certificate file>.pem
-If SSL is not required, use:
-bash
-Copy code
-tsm topology external-services repository enable -f <file.json> --no-ssl
-Start Tableau Server
+- **AD Group for Jenkins Access:** PRC-GBT-Jenkins-BIPLT
 
-Restart Tableau Server to apply changes.
-Command: tsm start
+## 3. Items to Share with Jenkins Team
+
+- **IAM Roles:** Create IAM roles for each environment required by the CloudFormation template.
+- **Admin Credentials:** Provide admin credentials necessary for setup and access.
+- **CloudFormation Stack Repository:** Ensure the CloudFormation stack is available in the GitHub repository.
+- **Jenkins Contact:** Venkata Gurun (IST Hours)
+
+## Additional Information
+
+- Please make sure all required roles, credentials, and repository links are correctly set up and shared with the Jenkins team.
+- For any issues or clarifications, reach out to the contact person provided.
+
+---
+
+Feel free to adjust any details or add more specific instructions if needed!
