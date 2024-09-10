@@ -1,9 +1,28 @@
-Create a process for archiving files in the below folders that are older
-
-D:\Project\CSA\Output (30 days)
-
-D:\ProgramData\Alteryx\Gallery\Logs(90 days)
-
-
-
-
++         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+ 
+Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
+"
+At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
++         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+ 
+Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
+"
+At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
++         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
+ 
+Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
+"
+At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
++         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
+    + FullyQualifiedErrorId : IOException
