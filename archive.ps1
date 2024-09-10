@@ -4,7 +4,7 @@ $directories = @{
     "D:\ProgramData\Alteryx\Gallery\Logs" = 90
 }
 
-# Path where the archived files will be stored
+# Path where the archived zip files will be stored
 $archivePath = "D:\ArchivedFiles"
 
 # Create archive folder if it doesn't exist
@@ -12,7 +12,7 @@ if (!(Test-Path -Path $archivePath)) {
     New-Item -ItemType Directory -Path $archivePath
 }
 
-# Function to archive files older than the specified number of days
+# Function to archive files older than the specified number of days into a single zip file per folder
 function Archive-Files {
     param (
         [string]$folderPath,
@@ -26,17 +26,27 @@ function Archive-Files {
         ($currentDate - $_.LastWriteTime).Days -ge $days 
     }
 
-    # Archive each file and then delete it
-    foreach ($file in $files) {
-        $fileName = $file.Name
-        $fileDate = $file.LastWriteTime.ToString("yyyyMMdd")
-        
-        $zipFilePath = Join-Path $archivePath "$fileName-$fileDate.zip"
-        
+    if ($files.Count -gt 0) {
+        # Create zip file name based on folder name and date
+        $folderName = (Get-Item $folderPath).Name
+        $zipFileName = "$folderName-$($currentDate.ToString('yyyyMMdd')).zip"
+        $zipFilePath = Join-Path $archivePath $zipFileName
+
+        # Create a new zip archive
         Add-Type -AssemblyName 'System.IO.Compression.FileSystem'
-        [System.IO.Compression.ZipFile]::CreateFromDirectory($file.FullName, $zipFilePath)
-        
-        Remove-Item $file.FullName -Force
+        $zipArchive = [System.IO.Compression.ZipFile]::Open($zipFilePath, 'Create')
+
+        # Archive each file into the zip and retain folder structure
+        foreach ($file in $files) {
+            $relativePath = $file.FullName.Substring($folderPath.Length + 1)  # Maintain relative folder structure in zip
+            [System.IO.Compression.ZipFileExtensions]::CreateEntryFromFile($zipArchive, $file.FullName, $relativePath)
+
+            # Optionally: Delete the original file after it's added to the zip
+            Remove-Item $file.FullName -Force
+        }
+
+        # Close the zip archive
+        $zipArchive.Dispose()
     }
 }
 
