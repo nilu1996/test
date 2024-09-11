@@ -1,28 +1,7 @@
-+         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
-+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
-    + FullyQualifiedErrorId : IOException
- 
-Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
-"
-At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
-+         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
-+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
-    + FullyQualifiedErrorId : IOException
- 
-Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
-"
-At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
-+         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
-+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
-    + FullyQualifiedErrorId : IOException
- 
-Exception calling "CreateFromDirectory" with "2" argument(s): "The directory name is invalid.
-"
-At C:\Users\svc_cawinuser396\Documents\archive.ps1:37 char:9
-+         [System.IO.Compression.ZipFile]::CreateFromDirectory($file.Fu ...
-+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (:) [], MethodInvocationException
-    + FullyQualifiedErrorId : IOException
+D:\Project\COE\Output
+D:\Project\DAAS\Output
+D:\Project\GBC\Output
+D:\Project\GIDM\output
+D:\Project\PET\PRE\Output
+D:\Project\QUEST\Output
+D:\Project\TCA\Output
