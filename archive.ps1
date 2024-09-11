@@ -1,6 +1,13 @@
 # Directories and the number of days after which files will be archived
 $directories = @{
     "D:\Project\CSA\Output" = 30
+    "D:\Project\COE\Output" = 30
+    "D:\Project\DAAS\Output" = 30
+    "D:\Project\GBC\Output" = 30
+    "D:\Project\GIDM\output" = 30
+    "D:\Project\PET\PRE\Output" = 30
+    "D:\Project\QUEST\Output" = 30
+    "D:\Project\TCA\Output" = 30
     "D:\ProgramData\Alteryx\Gallery\Logs" = 90
 }
 
