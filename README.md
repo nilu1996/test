@@ -1,5 +1,6 @@
 rmtadmin create-env --name=production --api-username=tableau_admin --api-password='tableau_gbt#2024' --gateway-url=https://tableau.gbt.gbtad.com --version=2023.3.0 --repository-server=tsm-prod-stack-rdsinstance-1m07to2nzls3.ctycrxiwiiam.us-east-1.rds.amazonaws.com --repository-port=5432 --repository-database=tableau --repository-username=rails --repository-password='tsmDBpass#2023' --repository-ssl-mode=PreferTls --non-interactive
 
+rmtadmin register /home/tsmadmin/scripts/tsm_monitoring/bootstrap_file --server-name=tableau_prod --server-description Tableau_server_RMT --username=tableau_admin
 
 
 {"Timestamp":"2024-10-10T11:38:52.9833700+00:00","Level":"Information","MessageTemplate":"Running rmtadmin {Command} command","RenderedMessage":"Running rmtadmin \"register\" command","Properties":{"Command":"register","SourceContext":"Tableau.PowerTools.Server.Agent.Background.CommandLine.AgentAdminCommander","ProcessId":131049,"ThreadId":1}}
